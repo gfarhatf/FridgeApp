@@ -1,4 +1,6 @@
 package com.example.fridgeapp;
 
-public class RecipesActivity {
+import android.app.Activity;
+
+public class RecipesActivity extends Activity {
 }
