@@ -18,5 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         //do something with the button
+
+        //Gaby's comment
     }
 }
