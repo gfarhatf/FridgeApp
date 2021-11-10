@@ -1,4 +1,7 @@
 package com.example.fridgeapp;
 
-public class RegisterActivity {
+import android.app.Activity;
+
+public class RegisterActivity extends Activity {
+
 }
