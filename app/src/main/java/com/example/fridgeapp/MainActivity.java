@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         //do something with the button
 
-        //IVY's comment
+        //IVY's comment2
 
     }
 }
