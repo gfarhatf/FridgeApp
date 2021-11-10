@@ -19,5 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         //IVY's comment3
 
+        //this is a test to see if we have any problems in the main activity
     }
 }
