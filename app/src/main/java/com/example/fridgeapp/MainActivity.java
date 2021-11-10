@@ -56,6 +56,11 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, username + " " + password, Toast.LENGTH_SHORT).show();
             }
             //--------------------------------------------------------------------
+
+            //go to Fridge Activity
+            Intent intent = new Intent(this, FridgeActivity.class);
+            startActivity(intent);
+
         }
         if (view == registerTextView) {
             Toast.makeText(this, "register clicked", Toast.LENGTH_SHORT).show();
