@@ -1,6 +1,7 @@
 package com.example.fridgeapp;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +16,9 @@ import java.util.ArrayList;
 public class FridgeActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     RecyclerView myRecycler;
-    MyAdapter myAdapter;
+    MyAdapter myAdapter; //recycler view
+    MyDatabase db;
+    MyHelper helper; //SQLite
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,30 +29,38 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         myRecycler = (RecyclerView) findViewById(R.id.recyclerView);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        // get user ingredients from database
+        Cursor cursor = null;
+
+        //initialize database objects
+        ArrayList<String> mArrayList = new ArrayList<String>();
+        db = new MyDatabase(this);
+        helper = new MyHelper(this);
+
+        //get all data from database
+        cursor = db.getData();
+
         ArrayList<String> myIngredientList = new ArrayList<String>();
+        if (cursor != null) {
+            int index1 = cursor.getColumnIndex(Constants.USERNAME);
+            int index2 = cursor.getColumnIndex(Constants.PASSWORD);
+            int index3 = cursor.getColumnIndex(Constants.EMAIL);
+
+            // get user ingredients from database
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String username = cursor.getString(index1);
+                String password = cursor.getString(index2);
+                String email = cursor.getString(index3);
+                String s = username + "," + password + "," + email;
+                myIngredientList.add(s);
+                cursor.moveToNext();
+            }
+        }
         // add temporary values for testing
-        myIngredientList.add("ingred1");
-        myIngredientList.add("ingred2");
-        myIngredientList.add("ingred3");
-        myIngredientList.add("ingred4");
-        myIngredientList.add("ingred5");
-        myIngredientList.add("ingred6");
-        myIngredientList.add("ingred7");
-        myIngredientList.add("ingred8");
-        myIngredientList.add("ingred9");
-        myIngredientList.add("ingred10");
-        myIngredientList.add("ingred11");
-        myIngredientList.add("ingred12");
-        myIngredientList.add("ingred13");
-        myIngredientList.add("ingred14");
-        myIngredientList.add("ingred15");
-        myIngredientList.add("ingred16");
-        myIngredientList.add("ingred17");
-        myIngredientList.add("ingred18");
-        myIngredientList.add("ingred19");
+//        myIngredientList.add("ingred1");
         myAdapter = new MyAdapter(myIngredientList);
         myRecycler.setAdapter(myAdapter);
+
     }
 
     @Override

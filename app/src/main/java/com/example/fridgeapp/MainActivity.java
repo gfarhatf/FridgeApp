@@ -28,7 +28,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this, "onCreate-main", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onCreate-main", Toast.LENGTH_SHORT).show();
 
         usernameEditText = (EditText) findViewById(R.id.editTextUsername);
         passwordEditText = (EditText) findViewById(R.id.editTextPassword);
@@ -54,16 +54,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, username + " " + password, Toast.LENGTH_SHORT).show();
+                //go to Fridge Activity
+                Intent intent = new Intent(this, FridgeActivity.class);
+                startActivity(intent);
             }
             //--------------------------------------------------------------------
 
-            //go to Fridge Activity
-            Intent intent = new Intent(this, FridgeActivity.class);
-            startActivity(intent);
 
         }
         if (view == registerTextView) {
-            Toast.makeText(this, "register clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "register clicked", Toast.LENGTH_SHORT).show();
             //go to Register Activity
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);

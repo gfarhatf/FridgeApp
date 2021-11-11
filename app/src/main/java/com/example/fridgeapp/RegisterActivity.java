@@ -21,12 +21,14 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     //Buttons
     private Button registerButton;
 
+    public MyDatabase db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toast.makeText(this, "onCreate-register", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onCreate-register", Toast.LENGTH_SHORT).show();
 
         usernameEditText = (EditText) findViewById(R.id.editTextUsername);
         passwordEditText = (EditText) findViewById(R.id.editTextPassword);
@@ -37,6 +39,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         registerButton = (Button) findViewById(R.id.registerButton);
         registerButton.setOnClickListener(this);
+
+        db = new MyDatabase(this);
     }
 
 
@@ -56,16 +60,27 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, username + " " + password + " " + email, Toast.LENGTH_SHORT).show();
+                long id = db.insertData(username, password, email);
+                if (id < 0) {
+                    //failed to insert data
+                    Toast.makeText(this, "registration failed", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(this, "registration success", Toast.LENGTH_SHORT).show();
+                    //go to Fridge Activity
+                    Intent intent = new Intent(this, FridgeActivity.class);
+                    startActivity(intent);
+                }
             }
             //--------------------------------------------------------------------
 
-            //go to Login Activity
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
         }
 
         if (view == loginTextView) {
-            Toast.makeText(this, "login clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "login clicked", Toast.LENGTH_SHORT).show();
+            //go to Login Activity
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
