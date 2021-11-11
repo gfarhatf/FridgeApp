@@ -31,7 +31,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
         String res = list.get(position);
-        holder.sensorNameTextView.setText(res);
+        String splitArr[] = res.split(","); //split string along commas
+
+        //check that string was split into 3 or more parts
+        if (splitArr.length > 2) {
+            //display data into separate TextViews
+            holder.ingredientNameTextView.setText(splitArr[0]);
+            holder.ingredientTypeTextView.setText(splitArr[1]);
+            holder.ingredientQuantityTextView.setText(splitArr[2]);
+        }
     }
 
     @Override
@@ -43,8 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
         public RecyclerView myRecycler;
         public LinearLayout myLayout;
-        public TextView sensorNameTextView;
-        String sensorName = "";
+        public TextView ingredientNameTextView, ingredientTypeTextView, ingredientQuantityTextView;
         Context context;
 
         public MyViewHolder(View itemView) {
@@ -52,7 +59,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             myLayout = (LinearLayout) itemView;
 
             myRecycler = (RecyclerView) itemView.findViewById(R.id.recyclerView);
-            sensorNameTextView = (TextView) itemView.findViewById(R.id.ingredientNameEntry);
+            ingredientNameTextView = (TextView) itemView.findViewById(R.id.ingredientNameEntry);
+            ingredientTypeTextView = (TextView) itemView.findViewById(R.id.ingredientTypeEntry);
+            ingredientQuantityTextView = (TextView) itemView.findViewById(R.id.ingredientQuantityEntry);
 
             itemView.setOnClickListener(this);
             context = itemView.getContext();
@@ -60,12 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
         @Override
         public void onClick(View view) {
-            TextView clickedTv = (TextView) view.findViewById(R.id.ingredientNameEntry);
-            sensorName = (String) clickedTv.getText().toString();
-            // go to new activity (explicit intent) and pass in value of which sensor was clicked
-//            Intent intent = new Intent(context, SensorDetailsActivity.class);
-//            intent.putExtra("SENSOR_NAME", sensorName);
-//            context.startActivity(intent);
+
         }
     }
 }

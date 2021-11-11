@@ -37,6 +37,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         helper = new MyHelper(this);
 
         //get all data from database
+        // (currently only username, password, and email) --> nov 10
         cursor = db.getData();
 
         ArrayList<String> myIngredientList = new ArrayList<String>();
@@ -56,8 +57,10 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
                 cursor.moveToNext();
             }
         }
+
         // add temporary values for testing
 //        myIngredientList.add("ingred1");
+
         myAdapter = new MyAdapter(myIngredientList);
         myRecycler.setAdapter(myAdapter);
 
