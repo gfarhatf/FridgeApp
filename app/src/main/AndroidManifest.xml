@@ -26,6 +26,7 @@
         <activity android:name=".ProfileActivity"></activity>
         <activity android:name=".RecipesActivity"></activity>
         <activity android:name=".RegisterActivity"></activity>
+        <activity android:name="MapActivity"></activity>
     </application>
 
 </manifest>
