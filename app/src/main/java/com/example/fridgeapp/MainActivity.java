@@ -1,9 +1,13 @@
 package com.example.fridgeapp;
 
+import static com.example.fridgeapp.RegisterActivity.DEFAULT;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -53,17 +57,32 @@ public class MainActivity extends Activity implements View.OnClickListener {
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, username + " " + password, Toast.LENGTH_SHORT).show();
-                //go to Fridge Activity
-                Intent intent = new Intent(this, FridgeActivity.class);
-                startActivity(intent);
+                //check if username and password matches current values stored in shared preferences
+                SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                String currUsername = sharedPrefs.getString("username", DEFAULT);
+                String currPassword = sharedPrefs.getString("password", DEFAULT);
+
+                if (currUsername.equals(DEFAULT) && currPassword.equals(DEFAULT)){ // no current user
+                    //toast msg: please create an account
+                    Toast.makeText(this, "Please create an account", Toast.LENGTH_SHORT).show();
+                    //go to register activity
+                    Intent intent = new Intent(this, RegisterActivity.class);
+                    startActivity(intent);
+
+                } else if (currUsername.equals(username) && currPassword.equals(password)) { // current user in shared preferences matches user input
+                    // go to fridge activity
+                    Intent intent = new Intent(this, FridgeActivity.class);
+                    startActivity(intent);
+                } else { // if there is data in shared preferences but login is incorrect
+                    // toast msg: invalid credentials please try again
+                    Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                }
             }
             //--------------------------------------------------------------------
 
 
         }
         if (view == registerTextView) {
-//            Toast.makeText(this, "register clicked", Toast.LENGTH_SHORT).show();
             //go to Register Activity
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);

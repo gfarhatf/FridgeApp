@@ -1,6 +1,7 @@
 package com.example.fridgeapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
+
+    public static final String DEFAULT = "";
 
     //User input EditTexts
     private EditText usernameEditText, passwordEditText, emailEditText;
@@ -59,18 +62,31 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                 Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, username + " " + password + " " + email, Toast.LENGTH_SHORT).show();
-                long id = db.insertData(username, password, email);
-                if (id < 0) {
-                    //failed to insert data
-                    Toast.makeText(this, "registration failed", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Toast.makeText(this, "registration success", Toast.LENGTH_SHORT).show();
-                    //go to Fridge Activity
-                    Intent intent = new Intent(this, FridgeActivity.class);
-                    startActivity(intent);
-                }
+                // store new username in Shared Preferences
+                SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putString("username", username);
+                editor.putString("password", password);
+                Toast.makeText(this, "New username and password saved", Toast.LENGTH_LONG).show();
+                editor.commit();
+
+//                Toast.makeText(this, username + " " + password + " " + email, Toast.LENGTH_SHORT).show();
+//                long id = db.insertData(username, password, email);
+//                if (id < 0) {
+//                    //failed to insert data
+//                    Toast.makeText(this, "registration failed", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    Toast.makeText(this, "registration success", Toast.LENGTH_SHORT).show();
+
+
+                // make all quantities = 0 in database
+
+
+                //go to Fridge Activity
+                Intent intent = new Intent(this, FridgeActivity.class);
+                startActivity(intent);
+
             }
             //--------------------------------------------------------------------
 
