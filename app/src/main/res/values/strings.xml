@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FridgeApp</string>
+    <string name="cd_map">Map</string>
+    <string name="title_map">Map</string>
 </resources>
