@@ -4,6 +4,7 @@ import static com.example.fridgeapp.RegisterActivity.DEFAULT;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.hardware.SensorManager;
@@ -85,6 +86,12 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             usernameTextView.setText("Welcome, " + username + "!");
         }
 
+    }
+
+    //For testing map activity --- IVY
+    public void goToMapActivity (View view) {
+        Intent i = new Intent(this, MapActivity.class);
+        startActivity(i);
     }
 
     @Override

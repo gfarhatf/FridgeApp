@@ -2,4 +2,8 @@
     <string name="app_name">FridgeApp</string>
     <string name="cd_map">Map</string>
     <string name="title_map">Map</string>
+
+    <string name="title_location_permission">loc1</string>
+    <string name="text_location_permission">loc2</string>
+    <string name="ok">ok</string>
 </resources>
