@@ -32,6 +32,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,8 +40,8 @@ import java.util.List;
 public class MapActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
     GoogleMap myMap;
-    private EditText locationEntry, latEntry, lngEntry;
-    private String locationString, latString, lngString;
+    private EditText locationEntry;
+    private String locationString;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -59,14 +60,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        Toast.makeText(this, "onCreate-MAP", Toast.LENGTH_SHORT).show();
-
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         locationEntry = (EditText) findViewById(R.id.locationEditText);
-        latEntry = (EditText) findViewById(R.id.latEditText);
-        lngEntry = (EditText) findViewById(R.id.lngEditText);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
@@ -96,8 +93,9 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
 
             List<Address> list = null;
             try {
-                list = myGeocoder.getFromLocationName(locationString, 1);
+                list = myGeocoder.getFromLocationName(locationString, 5);
             } catch (IOException e) {
+                Toast.makeText(this, "cannot find locations", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
 
@@ -110,38 +108,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
                 double lng = add.getLongitude();
                 gotoLocation(lat, lng, 15);
 
-//                MarkerOptions options = new MarkerOptions()
-//                        .title(locality)
-//                        .position(new LatLng(lat, lng));
-//                myMap.addMarker(options);
-            }
-        }
-
-        if (v.getId() == R.id.latLngButton) {
-            latString = latEntry.getText().toString();
-            lngString = lngEntry.getText().toString();
-            Toast.makeText(this, "Searching for " + latString + " , " + lngString, Toast.LENGTH_SHORT).show();
-
-            List<Address> list = null;
-            try {
-                list = myGeocoder.getFromLocation(Double.parseDouble(latString), Double.parseDouble(lngString), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (list.size() > 0) {
-                Address add = list.get(0);
-                String locality = add.getLocality();
-                Toast.makeText(this, "Found " + locality, Toast.LENGTH_SHORT).show();
-
-                double lat = add.getLatitude();
-                double lng = add.getLongitude();
-                gotoLocation(lat, lng, 15);
-
-//                MarkerOptions options = new MarkerOptions()
-//                        .title(locality)
-//                        .position(new LatLng(lat, lng));
-//                myMap.addMarker(options);
+                MarkerOptions options = new MarkerOptions()
+                        .title(locality)
+                        .position(new LatLng(lat, lng));
+                myMap.addMarker(options);
             }
         }
     }
@@ -167,42 +137,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         myMap.moveCamera(update);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//
-//        //Add menu handling code
-//        switch (id) {
-//
-//            case R.id.mapTypeNone:
-//                myMap.setMapType(GoogleMap.MAP_TYPE_NONE);
-//                break;
-//            case R.id.mapTypeHybrid:
-//                myMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-//                break;
-//            case R.id.mapTypeTerrain:
-//                myMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
-//                break;
-//            case R.id.mapTypeSatellite:
-//                myMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-//                break;
-//            case R.id.mapTypeNormal:
-//                myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//                break;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-
     public void showCurrentLocation(MenuItem item) {
-
 
         //auto generated
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
