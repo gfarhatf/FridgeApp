@@ -29,10 +29,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
+import com.google.android.gms.maps.model.BitmapDescriptorFactory.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,10 +52,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
             VANCOUVER_LAT = 49.277549,
             VANCOUVER_LNG = -123.123921,
 
-    SEATTLE_LAT = 47.60621,
+            SEATTLE_LAT = 47.60621,
             SEATTLE_LNG = -122.33207,
 
-    CALGARY_LAT = 51.068045,
+            CALGARY_LAT = 51.068045,
             CALGARY_LNG = -114.074182;
 
     @Override
@@ -88,30 +91,36 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         hideSoftKeyboard(v);
 
         if (v.getId() == R.id.locationButton) {
-            locationString = locationEntry.getText().toString();
-            Toast.makeText(this, "Searching for " + locationString, Toast.LENGTH_SHORT).show();
+            if (locationEntry.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
+            } else {
+                locationString = locationEntry.getText().toString();
+                Toast.makeText(this, "Searching for " + locationString, Toast.LENGTH_SHORT).show();
 
-            List<Address> list = null;
-            try {
-                list = myGeocoder.getFromLocationName(locationString, 5);
-            } catch (IOException e) {
-                Toast.makeText(this, "cannot find locations", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
+                List<Address> list = null;
+                try {
+                    list = myGeocoder.getFromLocationName(locationString, 5);
+                } catch (IOException e) {
+                    Toast.makeText(this, "cannot find locations", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
 
-            if (list.size() > 0) {
-                Address add = list.get(0);
-                String locality = add.getLocality();
-                Toast.makeText(this, "Found " + locality, Toast.LENGTH_SHORT).show();
+                if (list.size() > 0) {
+                    Address add = list.get(0);
+                    String locality = add.getLocality();
+                    Toast.makeText(this, "Found " + locality, Toast.LENGTH_SHORT).show();
 
-                double lat = add.getLatitude();
-                double lng = add.getLongitude();
-                gotoLocation(lat, lng, 15);
+                    double lat = add.getLatitude();
+                    double lng = add.getLongitude();
+                    gotoLocation(lat, lng, 15);
 
-                MarkerOptions options = new MarkerOptions()
-                        .title(locality)
-                        .position(new LatLng(lat, lng));
-                myMap.addMarker(options);
+//                float hue = (float) 2.454;
+                    MarkerOptions options = new MarkerOptions()
+                            .title(locality)
+//                        .icon(BitmapDescriptorFactory.defaultMarker(hue))
+                            .position(new LatLng(lat, lng));
+                    myMap.addMarker(options);
+                }
             }
         }
     }

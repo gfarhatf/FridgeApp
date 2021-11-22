@@ -47,8 +47,8 @@
     <!--        map:cameraZoom = "15" />-->
 
 </LinearLayout>
-    <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 
+    <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 <LinearLayout
 android:id="@+id/bottomNav"
 android:layout_width="match_parent"
@@ -99,7 +99,6 @@ android:orientation="horizontal">
     android:text="Map" />
 
 </LinearLayout>
-
     <!--    END OF BOTTOM NAVIGATION-->
 
 
