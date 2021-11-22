@@ -29,10 +29,11 @@
         android:layout_width="wrap_content"
         android:layout_height="67dp"
         android:layout_gravity="center"
-        android:layout_marginTop="600dp"
         android:layout_marginLeft="170dp"
+        android:layout_marginTop="600dp"
         android:layout_weight="1"
         android:clickable="true"
+        android:onClick="onClick"
         android:src="@android:drawable/ic_input_add" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
