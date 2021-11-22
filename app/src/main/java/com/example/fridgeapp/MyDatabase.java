@@ -27,12 +27,25 @@ public class MyDatabase {
         return id;
     }
 
+    public long insertIngredient(String name, String quantity, String type)
+    {
+        db = helper.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(Constants.INGREDIENT_NAME, name);
+        contentValues.put(Constants.INGREDIENT_TYPE, type);
+        contentValues.put(Constants.INGREDIENT_QUANTITY, quantity);
+
+        long id = db.insert(Constants.INGREDIENT_TABLE_NAME, null, contentValues);
+        return id;
+    }
+
     public Cursor getData()
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {Constants.UID, Constants.USERNAME, Constants.PASSWORD, Constants.EMAIL};
-        Cursor cursor = db.query(Constants.TABLE_NAME, columns, null, null, null, null, null);
+        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
+        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null);
         return cursor;
     }
 
