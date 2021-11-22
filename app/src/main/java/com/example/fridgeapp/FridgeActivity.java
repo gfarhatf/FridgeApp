@@ -1,6 +1,7 @@
 package com.example.fridgeapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -42,17 +43,17 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
         ArrayList<String> myIngredientList = new ArrayList<String>();
         if (cursor != null) {
-            int index1 = cursor.getColumnIndex(Constants.USERNAME);
-            int index2 = cursor.getColumnIndex(Constants.PASSWORD);
-            int index3 = cursor.getColumnIndex(Constants.EMAIL);
+            int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
+            int index2 = cursor.getColumnIndex(Constants.INGREDIENT_TYPE);
+            int index3 = cursor.getColumnIndex(Constants.INGREDIENT_QUANTITY);
 
             // get user ingredients from database
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                String username = cursor.getString(index1);
-                String password = cursor.getString(index2);
-                String email = cursor.getString(index3);
-                String s = username + "," + password + "," + email;
+                String ingredientName = cursor.getString(index1);
+                String ingredientType = cursor.getString(index2);
+                String ingredientQuantity = cursor.getString(index3);
+                String s = ingredientName + "," + ingredientType + "," + ingredientQuantity;
                 myIngredientList.add(s);
                 cursor.moveToNext();
             }
@@ -68,7 +69,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
     @Override
     public void onClick(View view) {
-
+        Intent intent = new Intent(this, AddIngredients.class);
+        startActivity(intent);
     }
 
     @Override
