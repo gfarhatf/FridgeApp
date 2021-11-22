@@ -41,7 +41,7 @@ public class AddIngredients extends Activity implements View.OnClickListener {
         String ingredientNameString = ingredientName.getText().toString();
         String ingredientQuantityString = ingredientQuantity.getText().toString();
         String ingredientTypeString = ingredientType.getText().toString();
-        
+
         long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
 
         if (id < 0) {
