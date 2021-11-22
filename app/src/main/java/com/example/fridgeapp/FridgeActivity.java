@@ -89,6 +89,21 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     }
 
     //For testing map activity --- IVY
+    public void goToFridgeActivity (View view) {
+        Intent i = new Intent(this, FridgeActivity.class);
+        startActivity(i);
+    }
+
+    public void goToRecipesActivity (View view) {
+        Intent i = new Intent(this, RecipesActivity.class);
+        startActivity(i);
+    }
+
+    public void goToProfileActivity (View view) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
+
     public void goToMapActivity (View view) {
         Intent i = new Intent(this, MapActivity.class);
         startActivity(i);
