@@ -17,9 +17,19 @@ public class MyHelper extends SQLiteOpenHelper {
                     Constants.PASSWORD + " TEXT, " +
                     Constants.EMAIL + " TEXT);";
 
+    private static final String INGREDIENT_TABLE =
+            "CREATE TABLE "+
+                    Constants.INGREDIENT_TABLE_NAME + " (" +
+                    Constants.INGREDIENT_UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    Constants.INGREDIENT_NAME + " TEXT, " +
+                    Constants.INGREDIENT_TYPE + " TEXT, " +
+                    Constants.INGREDIENT_QUANTITY + " TEXT, " +
+                    Constants.INGREDIENT_IMAGE + " TEXT);";
+
 
 
     private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
+    private static final String DROP_INGREDIENT_TABLE = "DROP TABLE IF EXISTS " + Constants.INGREDIENT_TABLE_NAME;
 
     public MyHelper(Context context){
         super (context, Constants.DATABASE_NAME, null, Constants.DATABASE_VERSION);
@@ -30,6 +40,8 @@ public class MyHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         try {
             db.execSQL(CREATE_TABLE);
+            db.execSQL(INGREDIENT_TABLE);
+
             Toast.makeText(context, "onCreate() called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "exception onCreate() db", Toast.LENGTH_LONG).show();
@@ -40,6 +52,8 @@ public class MyHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
             db.execSQL(DROP_TABLE);
+            db.execSQL(DROP_INGREDIENT_TABLE);
+
             onCreate(db);
             Toast.makeText(context, "onUpgrade called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
