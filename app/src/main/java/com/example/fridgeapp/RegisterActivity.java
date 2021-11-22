@@ -60,7 +60,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, username + " " + password + " " + email, Toast.LENGTH_SHORT).show();
-                long id = db.insertData(username, password, email);
+                long id = db.insertData (username, password, email);
                 if (id < 0) {
                     //failed to insert data
                     Toast.makeText(this, "registration failed", Toast.LENGTH_SHORT).show();
