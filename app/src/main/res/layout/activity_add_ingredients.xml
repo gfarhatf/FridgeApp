@@ -95,11 +95,66 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="150dp"
-        android:layout_marginTop="620dp"
+        android:layout_marginTop="550dp"
         android:background="@color/purple_700"
+        android:onClick="onClick"
         android:text="Add"
-        android:textColor="@color/white"
-        android:onClick="onClick"/>
+        android:textColor="@color/white" />
 
+
+    <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
+
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:textColor="@android:color/black"
+            android:onClick="goToFridgeActivity"
+            android:text="Fridge" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/gray_30"
+            android:textColor="@android:color/black"
+            android:onClick="goToRecipesActivity"
+            android:text="Recipes" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/gray_30"
+            android:onClick="goToProfileActivity"
+            android:text="Profile"
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/gray_30"
+            android:textColor="@android:color/black"
+            android:onClick="goToMapActivity"
+            android:text="Map" />
+
+    </LinearLayout>
+
+    <!--    END OF BOTTOM NAVIGATION-->
 
 </RelativeLayout>

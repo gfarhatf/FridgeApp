@@ -4,6 +4,7 @@ import static com.example.fridgeapp.Constants.INGREDIENT_NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -64,7 +65,7 @@ public class MyHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity) {
+    public boolean updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
@@ -77,8 +78,11 @@ public class MyHelper extends SQLiteOpenHelper {
 
         if (updateResults == -1){ //if theres no data
             Toast.makeText(context, "Failed Update", Toast.LENGTH_SHORT).show();
+            return false;
         } else {
             Toast.makeText(context, "Successfully Updated", Toast.LENGTH_SHORT).show();
+            return true;
+
         }
     }
 }
