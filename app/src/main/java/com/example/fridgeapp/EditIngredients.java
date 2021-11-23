@@ -2,6 +2,7 @@ package com.example.fridgeapp;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.Toast;
 
 public class EditIngredients extends Activity implements View.OnClickListener {
     EditText ingredientNameInput, ingredientTypeInput, ingredientQuantityInput;
-    Button updateBtn, deleteBtn;
+
+    Button updateBtn, deleteBtn, getGoBackBtn;
 
     String nameStr, typeStr, quantityStr, idStr;
 
@@ -33,7 +35,9 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
 
         updateBtn = (Button) findViewById(R.id.updateButton);
+//        goBackBtn = (Button) findViewById(R.id.goBackButton);
         updateBtn.setOnClickListener(this);
+//        goBackBtn.setOnClickListener(this);
 
 
 
@@ -42,6 +46,25 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        if (view.getId() == updateBtn.getId()) {
+            dbHelper = new MyHelper(EditIngredients.this);
+
+            nameStr = ingredientNameInput.getText().toString().trim();
+            typeStr = ingredientTypeInput.getText().toString().trim();
+            quantityStr = ingredientQuantityInput.getText().toString().trim();
+
+            dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
+            Log.d("fridge:", "IM IN CHANGE  " + nameStr);
+        }
+
+//        else if (view.getId() == goBackBtn.getId()){
+//            Intent i = new Intent(this, FridgeActivity.class);
+//            startActivity(i);
+//
+//        }
+    }
+
+    public void updateIngredient(View view) {
         dbHelper = new MyHelper(EditIngredients.this);
 
         nameStr = ingredientNameInput.getText().toString().trim();
@@ -56,6 +79,15 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         dbHelper = new MyHelper(EditIngredients.this);
         dbHelper.deleteRow(idStr);
         Log.d("fridge:", "INGREDIENT ID : " + Constants.INGREDIENT_UID);
+
+        boolean updateSuccess = dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
+
+        // go back to fridge activity if update successful
+        if (updateSuccess) {
+            Intent i = new Intent(this, FridgeActivity.class);
+            startActivity(i);
+        }
+        Log.d("fridge:", "IM IN CHANGE  " + nameStr);
     }
 
     private void getDataFromInput () {
@@ -75,5 +107,25 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         } else {
             Toast.makeText(this, "There is no data", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void goToFridgeActivity (View view) {
+        Intent i = new Intent(this, FridgeActivity.class);
+        startActivity(i);
+    }
+
+    public void goToRecipesActivity (View view) {
+        Intent i = new Intent(this, RecipesActivity.class);
+        startActivity(i);
+    }
+
+    public void goToProfileActivity (View view) {
+        Intent i = new Intent(this, ProfileActivity.class);
+        startActivity(i);
+    }
+
+    public void goToMapActivity (View view) {
+        Intent i = new Intent(this, MapActivity.class);
+        startActivity(i);
     }
 }
