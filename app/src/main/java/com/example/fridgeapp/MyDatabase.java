@@ -45,8 +45,8 @@ public class MyDatabase {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
-//        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null); //show all ingredients
-        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, Constants.INGREDIENT_QUANTITY + ">?", new String[]{"0"}, null, null, null); //show only ingredients qty > 0
+        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null); //show all ingredients
+//        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, Constants.INGREDIENT_QUANTITY + ">?", new String[]{"0"}, null, null, null); //show only ingredients qty > 0
         return cursor;
     }
 
