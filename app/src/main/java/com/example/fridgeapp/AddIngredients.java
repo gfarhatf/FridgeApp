@@ -2,7 +2,9 @@ package com.example.fridgeapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,15 +44,29 @@ public class AddIngredients extends Activity implements View.OnClickListener {
         String ingredientQuantityString = ingredientQuantity.getText().toString();
         String ingredientTypeString = ingredientType.getText().toString();
 
-        long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
+        Cursor selectedName = db.getSelectedData(ingredientNameString);
+        int n = selectedName.getCount(); //how many rows were returned in the result
 
-        if (id < 0) {
-            Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+        Log.d("Cursor:", "NAMEEEE: " + n);
+
+        if(n == 0)
+        {
+            Log.d("Cursor:", "IM IN ");
+
+            long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
+
+            if (id < 0) {
+                Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+            }
+
+            Intent intent = new Intent(this, FridgeActivity.class);
+            startActivity(intent);
+
+        } else{
+            Log.d("Cursor:", "ALREADY EXISTS ");
+            Toast.makeText(this, "ALREADY EXISTS", Toast.LENGTH_SHORT).show();
         }
-
-        Intent intent = new Intent(this, FridgeActivity.class);
-        startActivity(intent);
     }
 }
