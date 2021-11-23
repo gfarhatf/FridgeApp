@@ -1,5 +1,8 @@
 package com.example.fridgeapp;
 
+import static com.example.fridgeapp.Constants.INGREDIENT_NAME;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -21,7 +24,7 @@ public class MyHelper extends SQLiteOpenHelper {
             "CREATE TABLE "+
                     Constants.INGREDIENT_TABLE_NAME + " (" +
                     Constants.INGREDIENT_UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    Constants.INGREDIENT_NAME + " TEXT, " +
+                    INGREDIENT_NAME + " TEXT, " +
                     Constants.INGREDIENT_TYPE + " TEXT, " +
                     Constants.INGREDIENT_QUANTITY + " TEXT, " +
                     Constants.INGREDIENT_IMAGE + " TEXT);";
@@ -58,6 +61,24 @@ public class MyHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "onUpgrade called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "exception onUpgrade() db", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(Constants.INGREDIENT_NAME, ingredientName);
+        contentValues.put(Constants.INGREDIENT_TYPE, ingredientType);
+        contentValues.put(Constants.INGREDIENT_QUANTITY, ingredientQuantity);
+
+        long updateResults = db.update(Constants.INGREDIENT_TABLE_NAME, contentValues, "_id=?", new String[] {rowId});
+
+
+        if (updateResults == -1){ //if theres no data
+            Toast.makeText(context, "Failed Update", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully Updated", Toast.LENGTH_SHORT).show();
         }
     }
 }

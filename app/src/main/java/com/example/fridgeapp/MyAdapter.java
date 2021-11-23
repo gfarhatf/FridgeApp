@@ -1,5 +1,6 @@
 package com.example.fridgeapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -11,14 +12,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import static com.example.fridgeapp.R.layout.activity_edit_ingredients;
 import static com.example.fridgeapp.R.layout.row;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public ArrayList<String> list;
+    private Context context;
 
-    public MyAdapter(ArrayList<String> list) {
+    Activity activity;
+
+    public MyAdapter(ArrayList<String> list, Context context, Activity activity) {
         this.list = list;
+        this.context = context;
+        this.activity = activity;
     }
 
     @Override
@@ -35,10 +43,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
         //check that string was split into 3 or more parts
         if (splitArr.length > 2) {
+            
             //display data into separate TextViews
             holder.ingredientNameTextView.setText(splitArr[0]);
             holder.ingredientTypeTextView.setText(splitArr[1]);
             holder.ingredientQuantityTextView.setText(splitArr[2]);
+
+            holder.myLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(context, EditIngredients.class);
+
+                    i.putExtra("name", String.valueOf(splitArr[0]));
+                    i.putExtra("type", String.valueOf(splitArr[1]));
+                    i.putExtra("quantity", String.valueOf(splitArr[2]));
+
+                    activity.startActivityForResult(i, 1);
+
+                }
+            });
         }
     }
 
@@ -47,29 +70,21 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         return list.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         public RecyclerView myRecycler;
         public LinearLayout myLayout;
         public TextView ingredientNameTextView, ingredientTypeTextView, ingredientQuantityTextView;
-        Context context;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            myLayout = (LinearLayout) itemView;
+
+            myLayout = itemView.findViewById(R.id.listLayout);
 
             myRecycler = (RecyclerView) itemView.findViewById(R.id.recyclerView);
             ingredientNameTextView = (TextView) itemView.findViewById(R.id.ingredientNameEntry);
             ingredientTypeTextView = (TextView) itemView.findViewById(R.id.ingredientTypeEntry);
             ingredientQuantityTextView = (TextView) itemView.findViewById(R.id.ingredientQuantityEntry);
-
-            itemView.setOnClickListener(this);
-            context = itemView.getContext();
-        }
-
-        @Override
-        public void onClick(View view) {
-
         }
     }
 }

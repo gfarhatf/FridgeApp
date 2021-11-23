@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -77,7 +78,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         // add temporary values for testing
 //        myIngredientList.add("ingred1");
 
-        myAdapter = new MyAdapter(myIngredientList);
+        myAdapter = new MyAdapter(myIngredientList, this, FridgeActivity.this);
         myRecycler.setAdapter(myAdapter);
 
         //display username that is stored in shared preferences
@@ -87,6 +88,16 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             usernameTextView.setText("Welcome, " + username + "!");
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1){
+
+            recreate();
+            Log.d("fridge:", "IM IN RECREATE ");
+        }
     }
 
     //For testing map activity --- IVY
