@@ -8,6 +8,84 @@
 
     <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="Profile"
+        />
+
+    <TextView
+        android:id="@+id/usernameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="150dp"
+        android:gravity="left"
+        android:text="Username: "
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="150dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@+id/usernameTextView"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/passwordTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/usernameTextView"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:gravity="left"
+        android:textSize="16dp"
+        android:text="Password: "
+        />
+
+    <TextView
+        android:id="@+id/password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/usernameTextView"
+        android:layout_marginTop="50dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@+id/usernameTextView"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/emailTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/passwordTextView"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="20dp"
+        android:gravity="left"
+        android:textSize="16dp"
+        android:text="Email: "
+        />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/passwordTextView"
+        android:layout_marginTop="50dp"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@+id/usernameTextView"
+        android:text="" />
+
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
