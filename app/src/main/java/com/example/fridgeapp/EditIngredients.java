@@ -47,7 +47,9 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             typeStr = ingredientTypeInput.getText().toString().trim();
             quantityStr = ingredientQuantityInput.getText().toString().trim();
 
-            dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
+//            dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
+            dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+
         }
 
 //        else if (view.getId() == goBackBtn.getId()){
