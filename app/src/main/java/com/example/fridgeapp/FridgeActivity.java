@@ -92,8 +92,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
         if (v.hasVibrator()) {
             // Vibrate for 1000 ms = 1s
-            v.vibrate(1000); 
-            Toast.makeText(this, "Vibrating for 3s", Toast.LENGTH_LONG).show();
+            v.vibrate(1000);
+            Toast.makeText(this, "Vibrating...", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(this, "No vibrate function but fridge is empty!", Toast.LENGTH_LONG).show();
         }
