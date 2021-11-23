@@ -35,13 +35,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
 
         updateBtn = (Button) findViewById(R.id.updateButton);
-//        goBackBtn = (Button) findViewById(R.id.goBackButton);
         updateBtn.setOnClickListener(this);
-//        goBackBtn.setOnClickListener(this);
-
-
-
-
     }
 
     @Override
@@ -54,7 +48,6 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             quantityStr = ingredientQuantityInput.getText().toString().trim();
 
             dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
-            Log.d("fridge:", "IM IN CHANGE  " + nameStr);
         }
 
 //        else if (view.getId() == goBackBtn.getId()){
@@ -87,7 +80,6 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             Intent i = new Intent(this, FridgeActivity.class);
             startActivity(i);
         }
-        Log.d("fridge:", "IM IN CHANGE  " + nameStr);
     }
 
     private void getDataFromInput () {
