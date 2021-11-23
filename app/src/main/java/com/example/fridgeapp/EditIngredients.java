@@ -1,5 +1,6 @@
 package com.example.fridgeapp;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +11,12 @@ import android.widget.Toast;
 
 public class EditIngredients extends Activity implements View.OnClickListener {
     EditText ingredientNameInput, ingredientTypeInput, ingredientQuantityInput;
-    Button updateBtn;
+    Button updateBtn, deleteBtn;
 
-    String nameStr, typeStr, quantityStr;
+    String nameStr, typeStr, quantityStr, idStr;
 
     MyHelper dbHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +30,12 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
         getDataFromInput();
 
+
+
         updateBtn = (Button) findViewById(R.id.updateButton);
         updateBtn.setOnClickListener(this);
+
+
 
 
     }
@@ -42,14 +48,21 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         typeStr = ingredientTypeInput.getText().toString().trim();
         quantityStr = ingredientQuantityInput.getText().toString().trim();
 
-        dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
-        Log.d("fridge:", "IM IN CHANGE  " + nameStr);
+        dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+    }
+
+    public void deleteRowListener(View view){
+        Log.d("fridge:", "IM HERE DELETE ");
+        dbHelper = new MyHelper(EditIngredients.this);
+        dbHelper.deleteRow(idStr);
+        Log.d("fridge:", "INGREDIENT ID : " + Constants.INGREDIENT_UID);
     }
 
     private void getDataFromInput () {
-        if (getIntent().hasExtra("name") && getIntent().hasExtra("type") && getIntent().hasExtra("quantity")){
+        if (getIntent().hasExtra("id") && getIntent().hasExtra("name") && getIntent().hasExtra("type") && getIntent().hasExtra("quantity")){
 
             //get data from intent
+            idStr = getIntent().getStringExtra("id");
             nameStr = getIntent().getStringExtra("name");
             typeStr = getIntent().getStringExtra("type");
             quantityStr = getIntent().getStringExtra("quantity");

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MyHelper extends SQLiteOpenHelper {
@@ -74,11 +75,21 @@ public class MyHelper extends SQLiteOpenHelper {
 
         long updateResults = db.update(Constants.INGREDIENT_TABLE_NAME, contentValues, "_id=?", new String[] {rowId});
 
-
         if (updateResults == -1){ //if theres no data
             Toast.makeText(context, "Failed Update", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Successfully Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void deleteRow(String rowId ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long deleteResults = db.delete(Constants.INGREDIENT_TABLE_NAME, "_id=?", new String[] {rowId});
+
+        if (deleteResults == -1){ //if theres no data
+            Toast.makeText(context, "Failed to delete ", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
         }
     }
 }

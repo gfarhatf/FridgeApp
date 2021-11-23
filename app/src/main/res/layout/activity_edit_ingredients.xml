@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".EditIngredients">
 
+
+
     <TextView
         android:id="@+id/addIngredientTextView"
         android:layout_width="wrap_content"
@@ -94,11 +96,23 @@
         android:id="@+id/updateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="620dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="520dp"
         android:background="@color/purple_700"
-        android:text="Update"
-        android:textColor="@color/white"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:text="Update ingredient"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/updateButton"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/purple_700"
+        android:onClick="deleteRowListener"
+        android:text="Delete Ingredient"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

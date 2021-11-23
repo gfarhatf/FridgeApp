@@ -52,7 +52,7 @@ public class MyDatabase {
 
     public Cursor getSelectedData(String ingredientName)
     {
-        //select plants from database of type 'herb'
+        //select plants from database that contain the same name
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
 
@@ -60,20 +60,6 @@ public class MyDatabase {
         String selection = Constants.INGREDIENT_NAME + "='" +ingredientName+ "'";  //Constants.TYPE = 'type'
         Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, selection, null, null, null, null);
         return cursor;
-        
-//        StringBuffer buffer = new StringBuffer();
-//        while (cursor.moveToNext()) {
-//
-//            int index1 = cursor.getColumnIndex(Constants.NAME);
-//            int index2 = cursor.getColumnIndex(Constants.TYPE);
-//            int index3 = cursor.getColumnIndex(Constants.LOCATION);
-//            int index4 = cursor.getColumnIndex(Constants.LATIN_NAME);
-//            String plantName = cursor.getString(index1);
-//            String plantType = cursor.getString(index2);
-//            String plantLocation = cursor.getString(index3);
-//            String plantLatinName = cursor.getString(index4);
-//            buffer.append(plantName + " " + plantType + " " + plantLocation + " " + plantLatinName + "\n");
-//        }
-//        return buffer.toString();
+
     }
 }

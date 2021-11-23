@@ -3,6 +3,7 @@ package com.example.fridgeapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,9 @@ import static com.example.fridgeapp.R.layout.row;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
-    public ArrayList<String> list;
+    public ArrayList<String> list, ingredientId;
+
+
     private Context context;
 
     Activity activity;
@@ -45,21 +48,25 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         if (splitArr.length > 2) {
             
             //display data into separate TextViews
-            holder.ingredientNameTextView.setText(splitArr[0]);
-            holder.ingredientTypeTextView.setText(splitArr[1]);
+            holder.ingredientNameTextView.setText(splitArr[1]);
+            holder.ingredientTypeTextView.setText(splitArr[2]);
 
-            holder.ingredientQuantityTextView.setText(splitArr[2]);
+            holder.ingredientQuantityTextView.setText(splitArr[3]);
 
             holder.myLayout.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View view) {
                     Intent i = new Intent(context, EditIngredients.class);
 
-                    i.putExtra("name", String.valueOf(splitArr[0]));
-                    i.putExtra("type", String.valueOf(splitArr[1]));
-                    i.putExtra("quantity", String.valueOf(splitArr[2]));
+
+                    i.putExtra("id", String.valueOf(splitArr[0]));
+                    i.putExtra("name", String.valueOf(splitArr[1]));
+                    i.putExtra("type", String.valueOf(splitArr[2]));
+                    i.putExtra("quantity", String.valueOf(splitArr[3]));
 
                     activity.startActivityForResult(i, 1);
+
 
                 }
             });

@@ -51,10 +51,8 @@ public class AddIngredients extends Activity implements View.OnClickListener {
             Cursor selectedName = db.getSelectedData(ingredientNameString);
             int n = selectedName.getCount(); //how many rows were returned in the result
 
-            Log.d("Cursor:", "NAMEEEE: " + n);
 
             if (n == 0) {
-                Log.d("Cursor:", "IM IN ");
 
                 long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
 
@@ -68,7 +66,6 @@ public class AddIngredients extends Activity implements View.OnClickListener {
                 startActivity(intent);
 
             } else {
-                Log.d("Cursor:", "ALREADY EXISTS ");
                 Toast.makeText(this, "ALREADY EXISTS", Toast.LENGTH_SHORT).show();
             }
         }

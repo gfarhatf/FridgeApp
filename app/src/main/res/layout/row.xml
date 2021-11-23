@@ -7,10 +7,10 @@
     android:background="@android:color/background_light"
     android:id="@+id/listLayout">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/gray_30">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_30">
 
     <LinearLayout
         android:layout_width="200dp"
@@ -28,6 +28,8 @@
             android:textSize="20sp"
             android:text="Ingredient Name"
             />
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"

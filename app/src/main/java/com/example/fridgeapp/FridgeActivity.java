@@ -66,6 +66,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
         ArrayList<String> myIngredientList = new ArrayList<String>();
         if (cursor != null) {
+
             int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
             int index2 = cursor.getColumnIndex(Constants.INGREDIENT_TYPE);
             int index3 = cursor.getColumnIndex(Constants.INGREDIENT_QUANTITY);
@@ -73,10 +74,11 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             // get user ingredients from database
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
+                String ingredientId = cursor.getString(0);
                 String ingredientName = cursor.getString(index1);
                 String ingredientType = cursor.getString(index2);
                 String ingredientQuantity = cursor.getString(index3);
-                String s = ingredientName + "," + ingredientType + "," + ingredientQuantity;
+                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity;
                 myIngredientList.add(s);
                 cursor.moveToNext();
             }
@@ -114,13 +116,15 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
 
             recreate();
-            Log.d("fridge:", "IM IN RECREATE ");
+
         }
     }
 
