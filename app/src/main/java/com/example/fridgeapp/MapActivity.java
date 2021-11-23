@@ -263,6 +263,8 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         }
     }
 
+    //navigation buttons
+
     public void goToFridgeActivity (View view) {
         Intent i = new Intent(this, FridgeActivity.class);
         startActivity(i);
