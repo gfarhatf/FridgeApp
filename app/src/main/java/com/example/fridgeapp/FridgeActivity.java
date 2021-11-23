@@ -58,9 +58,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         db = new MyDatabase(this);
         helper = new MyHelper(this);
 
-        //get all data from database
-        // (currently only username, password, and email) --> nov 10
-
         //only get the data of ingredients with quantities > 0
         cursor = db.getData();
 
@@ -162,11 +159,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        //check if sensor changed is vibration sensor
-//        int type = sensorEvent.sensor.getType();
-//        if (type == Sensor.TYPE_ACCELEROMETER) {
-//            float[] vals = sensorEvent.values;
-//        }
 
     }
 

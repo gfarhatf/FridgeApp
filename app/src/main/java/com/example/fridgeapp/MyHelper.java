@@ -80,9 +80,8 @@ public class MyHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Failed Update", Toast.LENGTH_SHORT).show();
             return false;
         } else {
-            Toast.makeText(context, "Successfully Updated", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Successfully Updated, qty:" + ingredientQuantity + ", type: " + ingredientType, Toast.LENGTH_SHORT).show();
             return true;
-
         }
     }
 

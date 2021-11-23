@@ -52,7 +52,7 @@ public class AddIngredients extends Activity implements View.OnClickListener {
             int n = selectedName.getCount(); //how many rows were returned in the result
 
 
-            if (n == 0) {
+            if (n == 0) { //if ingredient name doesn't exist in database
 
                 long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
 
@@ -66,6 +66,10 @@ public class AddIngredients extends Activity implements View.OnClickListener {
                 startActivity(intent);
 
             } else {
+                //check if ingredient is qty = 0 (update if so, otherwise it ALREADY EXISTS)
+//                Cursor name = db.getHiddenData(ingredientNameString);
+//                int n = name.getCount(); //how many rows were returned in the result
+//                if ()
                 Toast.makeText(this, "ALREADY EXISTS", Toast.LENGTH_SHORT).show();
             }
         }

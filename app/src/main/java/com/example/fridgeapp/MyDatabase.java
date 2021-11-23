@@ -45,14 +45,15 @@ public class MyDatabase {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
-        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null);
+//        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null); //show all ingredients
+        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, Constants.INGREDIENT_QUANTITY + ">?", new String[]{"0"}, null, null, null); //show only ingredients qty > 0
         return cursor;
     }
 
 
     public Cursor getSelectedData(String ingredientName)
     {
-        //select plants from database that contain the same name
+        //select ingredients from database that contain the same name
         SQLiteDatabase db = helper.getWritableDatabase();
         String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
 
@@ -61,5 +62,16 @@ public class MyDatabase {
         Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, selection, null, null, null, null);
         return cursor;
 
+    }
+
+    public Cursor getHiddenData(String ingredientName) {
+        //select ingredients from database that contain the same name and qty is greater than 0
+        SQLiteDatabase db = helper.getWritableDatabase();
+        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
+
+        //SQL query construction
+        String selection = Constants.INGREDIENT_NAME + "='" +ingredientName+ "'";  //Constants.TYPE = 'type'
+        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, selection, null, null, null, null);
+        return cursor;
     }
 }
