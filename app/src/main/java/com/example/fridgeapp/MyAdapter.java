@@ -38,7 +38,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             //display data into separate TextViews
             holder.ingredientNameTextView.setText(splitArr[0]);
             holder.ingredientTypeTextView.setText(splitArr[1]);
-            holder.ingredientQuantityTextView.setText(splitArr[2]);
+            holder.ingredientQuantityTextView.setText("Qty: " + splitArr[2]);
         }
     }
 

@@ -44,29 +44,34 @@ public class AddIngredients extends Activity implements View.OnClickListener {
         String ingredientQuantityString = ingredientQuantity.getText().toString();
         String ingredientTypeString = ingredientType.getText().toString();
 
-        Cursor selectedName = db.getSelectedData(ingredientNameString);
-        int n = selectedName.getCount(); //how many rows were returned in the result
+        if (ingredientNameString.isEmpty() || ingredientQuantityString.isEmpty() || ingredientTypeString.isEmpty()) {
+            Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
+        }
+        else {
 
-        Log.d("Cursor:", "NAMEEEE: " + n);
+            Cursor selectedName = db.getSelectedData(ingredientNameString);
+            int n = selectedName.getCount(); //how many rows were returned in the result
 
-        if(n == 0)
-        {
-            Log.d("Cursor:", "IM IN ");
+            Log.d("Cursor:", "NAMEEEE: " + n);
 
-            long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
+            if (n == 0) {
+                Log.d("Cursor:", "IM IN ");
 
-            if (id < 0) {
-                Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+                long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
+
+                if (id < 0) {
+                    Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+                }
+
+                Intent intent = new Intent(this, FridgeActivity.class);
+                startActivity(intent);
+
             } else {
-                Toast.makeText(this, "success", Toast.LENGTH_SHORT).show();
+                Log.d("Cursor:", "ALREADY EXISTS ");
+                Toast.makeText(this, "ALREADY EXISTS", Toast.LENGTH_SHORT).show();
             }
-
-            Intent intent = new Intent(this, FridgeActivity.class);
-            startActivity(intent);
-
-        } else{
-            Log.d("Cursor:", "ALREADY EXISTS ");
-            Toast.makeText(this, "ALREADY EXISTS", Toast.LENGTH_SHORT).show();
         }
     }
 }
