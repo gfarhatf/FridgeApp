@@ -59,16 +59,16 @@ tools:context=".FridgeActivity">
     android:src="@android:drawable/ic_input_add" />
 
 
-<com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/bottomNav"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
-    android:layout_marginTop="30dp"
-    android:background="?android:attr/windowBackground"
-    app:menu="@menu/bottom_nav">
+<!--<com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--    android:id="@+id/bottomNav"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_alignParentBottom="true"-->
+<!--    android:layout_marginTop="30dp"-->
+<!--    android:background="?android:attr/windowBackground"-->
+<!--    app:menu="@menu/bottom_nav">-->
 
-</com.google.android.material.bottomnavigation.BottomNavigationView>
+<!--</com.google.android.material.bottomnavigation.BottomNavigationView>-->
 <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 
 <LinearLayout

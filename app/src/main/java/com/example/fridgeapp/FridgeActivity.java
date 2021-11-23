@@ -8,7 +8,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Vibrator;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +29,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class FridgeActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class FridgeActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener, SensorEventListener {
 
     RecyclerView myRecycler;
     MyAdapter myAdapter; //recycler view
@@ -32,6 +37,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     MyHelper helper; //SQLite
 
     TextView usernameTextView;
+
+    Vibrator v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,23 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
                 cursor.moveToNext();
             }
         }
+
+        // vibrate for 3 seconds ----testing
+            // Sensor usage: vibrate for 3s and output a Toast message to the user that
+            // their fridge is empty
+
+//        Source: https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency
+        // Get instance of Vibrator from current Context
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        if (v.hasVibrator()) {
+            // Vibrate for 3000 ms = 3s
+            v.vibrate(3000);
+            Toast.makeText(this, "Vibrating for 3s", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(this, "No vibrate function but fridge is empty!", Toast.LENGTH_LONG).show();
+        }
+
 
         // add temporary values for testing
 //        myIngredientList.add("ingred1");
@@ -130,5 +154,20 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        //check if sensor changed is vibration sensor
+//        int type = sensorEvent.sensor.getType();
+//        if (type == Sensor.TYPE_ACCELEROMETER) {
+//            float[] vals = sensorEvent.values;
+//        }
+
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+        //nothing to do here
     }
 }
