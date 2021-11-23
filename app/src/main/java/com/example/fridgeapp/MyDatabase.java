@@ -50,16 +50,17 @@ public class MyDatabase {
     }
 
 
-    public Cursor getSelectedData(String username)
+    public Cursor getSelectedData(String ingredientName)
     {
         //select plants from database of type 'herb'
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {Constants.USERNAME, Constants.PASSWORD, Constants.EMAIL};
+        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
 
         //SQL query construction
-        String selection = Constants.USERNAME + "='" +username+ "'";  //Constants.TYPE = 'type'
-        Cursor cursor = db.query(Constants.TABLE_NAME, columns, selection, null, null, null, null);
+        String selection = Constants.INGREDIENT_NAME + "='" +ingredientName+ "'";  //Constants.TYPE = 'type'
+        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, selection, null, null, null, null);
         return cursor;
+        
 //        StringBuffer buffer = new StringBuffer();
 //        while (cursor.moveToNext()) {
 //
