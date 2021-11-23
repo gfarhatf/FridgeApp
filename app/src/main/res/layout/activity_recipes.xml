@@ -34,7 +34,7 @@
             android:layout_weight="1"
             android:background="@color/white"
             android:textColor="@android:color/black"
-            android:onClick="goToRecipesActivity"
+            android:onClick="onClick"
             android:text="Recipes" />
 
         <Button
