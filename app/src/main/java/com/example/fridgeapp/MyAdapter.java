@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -53,7 +54,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             holder.ingredientTypeTextView.setText(splitArr[2]);
             holder.ingredientQuantityTextView.setText("Qty: " + splitArr[3]);
             if (splitArr[3].equals("0")) {
-                holder.ingredientQuantityTextView.setTextColor(Color.rgb(255, 0, 0));
+                // if qty is zero, gray out the name and change the color of qty to 0
+                holder.ingredientQuantityTextView.setTextColor(Color.argb(90, 200, 0, 0));
+                holder.ingredientNameTextView.setTextColor(Color.argb(50,00,00,00));
             }
 
             holder.myLayout.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +89,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         public RecyclerView myRecycler;
-        public LinearLayout myLayout;
+//        public LinearLayout myLayout;
+        public CardView myLayout;
         public TextView ingredientNameTextView, ingredientTypeTextView, ingredientQuantityTextView;
 
         public MyViewHolder(View itemView) {
