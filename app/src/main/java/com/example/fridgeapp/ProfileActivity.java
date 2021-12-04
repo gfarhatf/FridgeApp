@@ -1,6 +1,7 @@
 package com.example.fridgeapp;
 
 import static com.example.fridgeapp.RegisterActivity.DEFAULT;
+import static com.example.fridgeapp.RegisterActivity.DEFAULT_BOOL;
 
 import android.app.Activity;
 import android.content.Context;
@@ -108,6 +109,13 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
 
     public void logoutButton (View view) {
         //logout button clicked
+
+        // un-remember login in Shared Preferences
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putBoolean("rememberMe", false);
+        editor.commit();
+
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }

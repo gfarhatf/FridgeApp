@@ -17,6 +17,7 @@ import android.widget.Toast;
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
     public static final String DEFAULT = "";
+    public static final boolean DEFAULT_BOOL = false;
 
     //User input EditTexts
     private EditText usernameEditText, passwordEditText, emailEditText;
@@ -74,6 +75,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 }
                 else {
                     Toast.makeText(this, "registration success", Toast.LENGTH_SHORT).show();
+
+                    // remember login in Shared Preferences
+                    SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putBoolean("rememberMe", true);
+                    editor.commit();
+
                     //go to Fridge Activity
                     Intent intent = new Intent(this, FridgeActivity.class);
                     startActivity(intent);

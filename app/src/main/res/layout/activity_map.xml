@@ -32,6 +32,8 @@
             android:text="Search"
             android:id="@+id/locationButton"
             android:onClick="geolocate"
+            android:background="@color/teal_700"
+            android:textColor="@color/white"
             android:nestedScrollingEnabled="false" />
     </LinearLayout>
 

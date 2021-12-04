@@ -18,6 +18,7 @@ import android.widget.Toast;
 //  LoginActivity
 public class MainActivity extends Activity implements View.OnClickListener {
 
+    private static final boolean DEFAULT_BOOL = false;
     //User input EditTexts
     private EditText usernameEditText, passwordEditText;
 
@@ -42,6 +43,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         loginButton = (Button) findViewById(R.id.loginButton);
         loginButton.setOnClickListener(this);
+
+        //if rememberMe == true, go to fridge automatically
+        SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        boolean rememberMe = sharedPrefs.getBoolean("rememberMe", DEFAULT_BOOL);
+        if (rememberMe) {
+            Intent i = new Intent(this, FridgeActivity.class);
+            startActivity(i);
+        }
     }
 
     @Override
@@ -71,6 +80,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
                 } else if (currUsername.equals(username) && currPassword.equals(password)) { // current user in shared preferences matches user input
                     // go to fridge activity
+                    // remember login in Shared Preferences
+//                    sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putBoolean("rememberMe", true);
+                    editor.commit();
+
                     Intent intent = new Intent(this, FridgeActivity.class);
                     startActivity(intent);
                 } else { // if there is data in shared preferences but login is incorrect
