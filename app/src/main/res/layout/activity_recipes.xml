@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".RecipesActivity">
 
+    <WebView
+        android:id="@+id/recipesWebView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottomNav"
+        android:layout_marginBottom="0dp" />
+
     <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 
     <LinearLayout

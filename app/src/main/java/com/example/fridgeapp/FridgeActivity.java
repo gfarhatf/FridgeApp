@@ -44,7 +44,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fridge);
-        Toast.makeText(this, "onCreate-fridge", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onCreate-fridge", Toast.LENGTH_SHORT).show();
 
         usernameTextView = (TextView) findViewById(R.id.usernameTextView);
 

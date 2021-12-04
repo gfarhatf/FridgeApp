@@ -24,7 +24,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_ingredients);
-        Toast.makeText(this, "onCreate-edit", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onCreate-edit", Toast.LENGTH_SHORT).show();
 
         ingredientNameInput = (EditText) findViewById(R.id.ingrNameTextEdit);
         ingredientTypeInput = (EditText) findViewById(R.id.ingrTypeTextEdit);

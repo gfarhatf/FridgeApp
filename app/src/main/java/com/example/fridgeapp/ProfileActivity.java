@@ -19,7 +19,7 @@ public class ProfileActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        Toast.makeText(this, "onCreate-profile", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onCreate-profile", Toast.LENGTH_SHORT).show();
 
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
@@ -34,12 +34,19 @@ public class ProfileActivity extends Activity {
         String pass = sharedPrefs.getString("password", DEFAULT);
         if (!pass.equals(DEFAULT)){
             int passLength = pass.length();
-            String passwordInStars = "*****";
+            String passwordInStars = "";
             for (int i = 0; i < passLength; i++) {
-                passwordInStars.concat("*");
+                passwordInStars += "*";
             }
             password.setText(passwordInStars);
         }
+
+        String emailAddress = sharedPrefs.getString("email", DEFAULT);
+        if (!emailAddress.equals(DEFAULT)) {
+            email.setText(emailAddress);
+        }
+
+
 
 
     }

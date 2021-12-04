@@ -80,6 +80,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString("username", username);
                 editor.putString("password", password);
+                editor.putString("email", email);
                 Toast.makeText(this, "New username and password saved", Toast.LENGTH_LONG).show();
                 editor.commit();
 
