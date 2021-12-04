@@ -103,8 +103,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
             if (v.hasVibrator()) {
-                // Vibrate for 3000 ms = 3s
-                v.vibrate(3000);
+                // Vibrate for 1000 ms = 1s
+                v.vibrate(1000);
                 Toast.makeText(this, "Empty fridge!", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "No vibrate function but fridge is empty!", Toast.LENGTH_LONG).show();
@@ -112,8 +112,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         }
 
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -125,7 +123,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         }
     }
 
-    //For testing map activity --- IVY
+    //Bottom nav--------------------
     public void goToFridgeActivity (View view) {
         Intent i = new Intent(this, FridgeActivity.class);
         startActivity(i);

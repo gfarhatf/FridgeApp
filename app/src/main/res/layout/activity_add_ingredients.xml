@@ -15,18 +15,8 @@
         android:layout_marginTop="80dp"
         android:text="Add Ingredient"
         android:textSize="20sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/ingrQuantityText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/addIngredientTextView"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="245dp"
-        android:layout_toEndOf="@+id/IngrTypeTextView"
-        android:ems="10"
-        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/IngrNameTextView"
@@ -35,7 +25,7 @@
         android:layout_alignBottom="@+id/addIngredientTextView"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="-121dp"
+        android:layout_marginBottom="-111dp"
         android:text="Name:" />
 
     <TextView
@@ -45,7 +35,7 @@
         android:layout_alignBottom="@+id/addIngredientTextView"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="-202dp"
+        android:layout_marginBottom="-192dp"
         android:text="Type:" />
 
     <TextView
@@ -55,18 +45,20 @@
         android:layout_alignBottom="@+id/addIngredientTextView"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="-276dp"
+        android:layout_marginBottom="-266dp"
         android:text="Quantity:" />
 
     <TextView
         android:id="@+id/IngrImageTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/addIngredientTextView"
         android:layout_marginLeft="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="-350dp"
-        android:text="Image:" />
+        android:layout_marginBottom="-365dp"
+        android:clickable="true"
+        android:onClick="uploadImageTextView"
+        android:text="Upload Image:"
+        android:textColor="@color/blue" />
 
     <EditText
         android:id="@+id/ingrNameText"
@@ -74,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/addIngredientTextView"
         android:layout_marginStart="35dp"
-        android:layout_marginTop="83dp"
+        android:layout_marginTop="73dp"
         android:layout_toEndOf="@+id/IngrNameTextView"
         android:ems="10"
         android:inputType="textPersonName" />
@@ -85,20 +77,63 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/addIngredientTextView"
         android:layout_marginStart="43dp"
-        android:layout_marginTop="162dp"
+        android:layout_marginTop="152dp"
         android:layout_toEndOf="@+id/IngrTypeTextView"
         android:ems="10"
         android:inputType="textPersonName" />
+
+
+    <EditText
+        android:id="@+id/ingrQuantityText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/addIngredientTextView"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="235dp"
+        android:layout_toEndOf="@+id/IngrTypeTextView"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+<!--    IMAGE-->
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/addIngredientTextView"-->
+<!--        android:layout_marginStart="43dp"-->
+<!--        android:layout_marginTop="328dp"-->
+<!--        android:layout_toEndOf="@+id/IngrTypeTextView"-->
+<!--        android:clickable="true"-->
+<!--        android:text="Upload Image"-->
+<!--        android:textColor="@color/blue" />-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addButton"
+        android:layout_below="@+id/addIngredientTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="328dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="200dp"
+        android:layout_toEndOf="@+id/IngrNameTextView"
+        android:src="@drawable/backup_image_2" />
+<!--    end of IMAGE-->
 
     <Button
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="150dp"
-        android:layout_marginTop="550dp"
-        android:background="@color/purple_700"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="625dp"
+        android:layout_marginEnd="60dp"
+        android:background="@color/teal_700"
         android:onClick="onClick"
-        android:text="Add"
+        android:padding="10dp"
+        android:text="Add Ingredient"
         android:textColor="@color/white" />
 
 

@@ -109,6 +109,8 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         }
     }
 
+    //BOTTOM NAV =============================
+
     public void goToFridgeActivity (View view) {
         Intent i = new Intent(this, FridgeActivity.class);
         startActivity(i);

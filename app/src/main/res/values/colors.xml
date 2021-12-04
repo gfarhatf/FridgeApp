@@ -16,5 +16,6 @@
 <!--    app colors here: -->
 
 <!--    button colors: -->
+    <color name="button_color">#FF018786</color>
 
 </resources>
