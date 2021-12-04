@@ -1,6 +1,8 @@
 package com.example.fridgeapp;
 
 import static com.example.fridgeapp.Constants.INGREDIENT_NAME;
+import static com.example.fridgeapp.Constants.INGREDIENT_QUANTITY;
+import static com.example.fridgeapp.Constants.INGREDIENT_TABLE_NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -95,4 +97,5 @@ public class MyHelper extends SQLiteOpenHelper {
             Toast.makeText(context, "Successfully deleted", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

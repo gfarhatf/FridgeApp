@@ -6,8 +6,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
 tools:context=".FridgeActivity">
-
-
+    
 <LinearLayout
     android:id="@+id/usernameLayout"
     android:layout_height="wrap_content"
@@ -40,23 +39,23 @@ tools:context=".FridgeActivity">
     android:layout_marginTop="5dp"
     android:layout_marginBottom="35dp" />
 
-<com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/floatingActionButton3"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_above="@+id/bottomNav"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentEnd="true"
-    android:layout_gravity="center"
-    android:layout_marginLeft="170dp"
-    android:layout_marginTop="600dp"
-    android:layout_weight="1"
-    android:layout_marginStart="178dp"
-    android:layout_marginEnd="178dp"
-    android:layout_marginBottom="5dp"
-    android:clickable="true"
-    android:onClick="onClick"
-    android:src="@android:drawable/ic_input_add" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomNav"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="178dp"
+        android:layout_marginLeft="170dp"
+        android:layout_marginTop="600dp"
+        android:layout_marginEnd="178dp"
+        android:layout_marginBottom="5dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:src="@android:drawable/ic_input_add" />
 
 
 <!--<com.google.android.material.bottomnavigation.BottomNavigationView-->

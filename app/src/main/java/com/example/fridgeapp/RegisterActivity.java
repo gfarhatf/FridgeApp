@@ -1,5 +1,8 @@
 package com.example.fridgeapp;
 
+import static com.example.fridgeapp.Constants.INGREDIENT_QUANTITY;
+import static com.example.fridgeapp.Constants.INGREDIENT_TABLE_NAME;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +28,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     private Button registerButton;
 
     public MyDatabase db;
+    MyHelper dbHelper;
 
 
     @Override
@@ -84,18 +88,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 Toast.makeText(this, "New username and password saved", Toast.LENGTH_LONG).show();
                 editor.commit();
 
-//                Toast.makeText(this, username + " " + password + " " + email, Toast.LENGTH_SHORT).show();
-//                long id = db.insertData(username, password, email);
-//                if (id < 0) {
-//                    //failed to insert data
-//                    Toast.makeText(this, "registration failed", Toast.LENGTH_SHORT).show();
-//                }
-//                else {
-//                    Toast.makeText(this, "registration success", Toast.LENGTH_SHORT).show();
-
 
                 // make all quantities = 0 in database
-
+//                db.updateAllIngredientsToQtyZero();
+                db.emptyIngredientsTable();
 
                 //go to Fridge Activity
                 Intent intent = new Intent(this, FridgeActivity.class);
@@ -113,5 +109,22 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
         }
     }
+
+//
+//    public void updateIngredient(View view) {
+//        dbHelper = new MyHelper(RegisterActivity.this);
+//
+//        //update all ingredient qtys to be 0
+//        String emptyFridgeQuery= "UPDATE" + INGREDIENT_TABLE_NAME + " SET " +  INGREDIENT_QUANTITY + " = '0'";
+//        dbHelper.
+//
+//
+//        // get all ingredients
+//        nameStr = ingredientNameInput.getText().toString().trim();
+//        typeStr = ingredientTypeInput.getText().toString().trim();
+//        quantityStr = ingredientQuantityInput.getText().toString().trim();
+//
+//        dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+//    }
 
 }

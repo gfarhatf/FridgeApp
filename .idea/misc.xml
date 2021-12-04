@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/Documents/GitHub/FridgeApp/app/src/main/res/layout/activity_edit_ingredients.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/Admin/Documents/GitHub/FridgeApp/app/src/main/res/layout/activity_fridge.xml" value="0.536" />
+        <entry key="..\:/Users/Admin/Documents/GitHub/FridgeApp/app/src/main/res/layout/activity_profile.xml" value="0.264" />
         <entry key="..\:/Users/Admin/Documents/GitHub/FridgeApp/app/src/main/res/layout/activity_recipes.xml" value="0.16168478260869565" />
         <entry key="..\:/Users/Admin/Downloads/FridgeApp/app/src/main/res/layout/activity_main.xml" value="0.24010416666666667" />
         <entry key="app/src/main/res/drawable/ic_account.xml" value="0.18611111111111112" />

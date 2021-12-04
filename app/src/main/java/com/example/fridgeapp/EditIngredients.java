@@ -48,7 +48,13 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             quantityStr = ingredientQuantityInput.getText().toString().trim();
 
 //            dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
-            dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+            boolean updateSuccess = dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+
+            // go back to fridge activity if update successful
+            if (updateSuccess) {
+                Intent i = new Intent(this, FridgeActivity.class);
+                startActivity(i);
+            }
 
         }
 

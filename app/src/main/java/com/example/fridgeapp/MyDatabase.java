@@ -1,5 +1,8 @@
 package com.example.fridgeapp;
 
+import static com.example.fridgeapp.Constants.INGREDIENT_QUANTITY;
+import static com.example.fridgeapp.Constants.INGREDIENT_TABLE_NAME;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -73,5 +76,19 @@ public class MyDatabase {
         String selection = Constants.INGREDIENT_NAME + "='" +ingredientName+ "'";  //Constants.TYPE = 'type'
         Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, selection, null, null, null, null);
         return cursor;
+    }
+
+    public void updateAllIngredientsToQtyZero() {
+        String emptyFridgeQuery= "UPDATE " + INGREDIENT_TABLE_NAME + " SET " +  INGREDIENT_QUANTITY + " = '0'";
+        db = helper.getWritableDatabase();
+        db.execSQL(emptyFridgeQuery);
+    }
+
+    public void emptyIngredientsTable() {
+        String emptyTableQuery = "DELETE FROM " + INGREDIENT_TABLE_NAME;
+        db = helper.getWritableDatabase();
+        db.delete(INGREDIENT_TABLE_NAME,null,null);
+//        db.execSQL(emptyTableQuery);
+
     }
 }

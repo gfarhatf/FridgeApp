@@ -41,14 +41,6 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-//        code reference:
-//        https://stackoverflow.com/questions/5026349/how-to-open-a-website-when-a-button-is-clicked-in-android-application
-        
-//        Intent intent = new Intent();
-//        intent.setAction(Intent.ACTION_VIEW);
-//        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//        intent.setData(Uri.parse("https://www.allrecipes.com/recipes/"));
-//        startActivity(intent);
     }
 
     public void goToFridgeActivity (View view) {
