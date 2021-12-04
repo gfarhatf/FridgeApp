@@ -59,6 +59,18 @@
         android:layout_marginBottom="-330dp"
         android:text="Image:" />
 
+    <TextView
+        android:id="@+id/changeImageTextView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/addIngredientTextView"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="-375dp"
+        android:clickable="true"
+        android:onClick="changeImageTextView"
+        android:text="Change Image:"
+        android:textColor="@color/blue" />
+
     <EditText
         android:id="@+id/ingrNameTextEdit"
         android:layout_width="wrap_content"

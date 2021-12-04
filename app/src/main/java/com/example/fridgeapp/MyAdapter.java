@@ -3,6 +3,7 @@ package com.example.fridgeapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             //display data into separate TextViews
             holder.ingredientNameTextView.setText(splitArr[1]);
             holder.ingredientTypeTextView.setText(splitArr[2]);
-
-            holder.ingredientQuantityTextView.setText(splitArr[3]);
+            holder.ingredientQuantityTextView.setText("Qty: " + splitArr[3]);
+            if (splitArr[3].equals("0")) {
+                holder.ingredientQuantityTextView.setTextColor(Color.rgb(255, 0, 0));
+            }
 
             holder.myLayout.setOnClickListener(new View.OnClickListener() {
 

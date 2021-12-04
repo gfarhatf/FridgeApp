@@ -49,6 +49,7 @@ public class AddIngredients extends Activity implements View.OnClickListener {
         addButton = (Button) findViewById(R.id.addButton);
         addButton.setOnClickListener(this);
 
+
         db = new MyDatabase(this);
 
     }
@@ -99,7 +100,7 @@ public class AddIngredients extends Activity implements View.OnClickListener {
     }
 
     public void uploadImageTextView (View view) {
-        Toast.makeText(this, "uploadImage", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "uploadImage", Toast.LENGTH_SHORT).show();
 
         //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
         startActivityForResult(
@@ -109,7 +110,6 @@ public class AddIngredients extends Activity implements View.OnClickListener {
                 ),
                 GET_FROM_GALLERY
         );
-
     }
 
     //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android

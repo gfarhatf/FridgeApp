@@ -54,7 +54,16 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/addIngredientTextView"
         android:layout_marginLeft="60dp"
-        android:layout_marginBottom="-355dp"
+        android:layout_marginBottom="-335dp"
+        android:text="Image:" />
+
+    <TextView
+        android:id="@+id/uploadImageTextView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/addIngredientTextView"
+        android:layout_marginLeft="60dp"
+        android:layout_marginBottom="-375dp"
         android:clickable="true"
         android:onClick="uploadImageTextView"
         android:text="Upload Image:"

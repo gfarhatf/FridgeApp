@@ -3,14 +3,26 @@ package com.example.fridgeapp;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class EditIngredients extends Activity implements View.OnClickListener {
+    //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
+    //for reuploading an image
+    public static final int GET_FROM_GALLERY = 3;
+    ImageView image;
+
     EditText ingredientNameInput, ingredientTypeInput, ingredientQuantityInput;
 
     Button updateBtn, deleteBtn, getGoBackBtn;
@@ -29,6 +41,8 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         ingredientNameInput = (EditText) findViewById(R.id.ingrNameTextEdit);
         ingredientTypeInput = (EditText) findViewById(R.id.ingrTypeTextEdit);
         ingredientQuantityInput = (EditText) findViewById(R.id.ingrQuantityTextEdit);
+
+        image = (ImageView) findViewById(R.id.imageView);
 
         getDataFromInput();
 
@@ -106,6 +120,43 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
         } else {
             Toast.makeText(this, "There is no data", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void changeImageTextView (View view) {
+//        Toast.makeText(this, "changeImage", Toast.LENGTH_SHORT).show();
+
+        //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
+        startActivityForResult(
+                new Intent(
+                        Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI
+                ),
+                GET_FROM_GALLERY
+        );
+    }
+
+    //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri selectedImage = data.getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                image.setImageBitmap(bitmap);
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 
