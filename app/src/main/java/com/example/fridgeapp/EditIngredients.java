@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,6 +29,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
     Button updateBtn, deleteBtn, getGoBackBtn;
 
     String nameStr, typeStr, quantityStr, idStr;
+    byte[] imgByte;
 
     MyHelper dbHelper;
 
@@ -60,9 +62,16 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             nameStr = ingredientNameInput.getText().toString().trim();
             typeStr = ingredientTypeInput.getText().toString().trim();
             quantityStr = ingredientQuantityInput.getText().toString().trim();
+            quantityStr = ingredientQuantityInput.getText().toString().trim();
+
+            //ImageView --> Bitmap --> byte[]
+            image.buildDrawingCache();
+            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            imgByte = bitmap.getNinePatchChunk(); // convert bitmap to byte[]
 
 //            dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
-            boolean updateSuccess = dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+            boolean updateSuccess = dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr, imgByte);
 
             // go back to fridge activity if update successful
             if (updateSuccess) {
@@ -85,8 +94,9 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         nameStr = ingredientNameInput.getText().toString().trim();
         typeStr = ingredientTypeInput.getText().toString().trim();
         quantityStr = ingredientQuantityInput.getText().toString().trim();
+        byte[] img = image.getDrawingCache().getNinePatchChunk(); //convert to btye[]
 
-        dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
+        dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr, img);
     }
 
     public void deleteRowListener(View view){
@@ -95,7 +105,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         dbHelper.deleteRow(idStr);
         Log.d("fridge:", "INGREDIENT ID : " + Constants.INGREDIENT_UID);
 
-        boolean updateSuccess = dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
+        boolean updateSuccess = dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr, imgByte);
 
         // go back to fridge activity if update successful
         if (updateSuccess) {
@@ -113,10 +123,17 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             typeStr = getIntent().getStringExtra("type");
             quantityStr = getIntent().getStringExtra("quantity");
 
+            //ImageView --> Bitmap --> byte[]
+            image.buildDrawingCache();
+            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
+            imgByte = bitmap.getNinePatchChunk(); //convert bitmap to byte[]
+
             //set intent data
             ingredientNameInput.setText(nameStr);
             ingredientTypeInput.setText(typeStr);
             ingredientQuantityInput.setText(quantityStr);
+
 
         } else {
             Toast.makeText(this, "There is no data", Toast.LENGTH_SHORT).show();

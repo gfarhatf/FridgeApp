@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 
 public class MyDatabase {
 
@@ -30,7 +31,7 @@ public class MyDatabase {
         return id;
     }
 
-    public long insertIngredient(String name, String quantity, String type)
+    public long insertIngredient(String name, String quantity, String type, byte[] img)
     {
         db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -38,6 +39,7 @@ public class MyDatabase {
         contentValues.put(Constants.INGREDIENT_NAME, name);
         contentValues.put(Constants.INGREDIENT_TYPE, type);
         contentValues.put(Constants.INGREDIENT_QUANTITY, quantity);
+        contentValues.put(Constants.INGREDIENT_IMAGE, img);
 
         long id = db.insert(Constants.INGREDIENT_TABLE_NAME, null, contentValues);
         return id;
@@ -47,7 +49,7 @@ public class MyDatabase {
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
-        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
+        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY, Constants.INGREDIENT_IMAGE};
         Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null); //show all ingredients
 //        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, Constants.INGREDIENT_QUANTITY + ">?", new String[]{"0"}, null, null, null); //show only ingredients qty > 0
         return cursor;
@@ -58,7 +60,7 @@ public class MyDatabase {
     {
         //select ingredients from database that contain the same name
         SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY};
+        String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY, Constants.INGREDIENT_IMAGE};
 
         //SQL query construction
         String selection = Constants.INGREDIENT_NAME + "='" +ingredientName+ "'";  //Constants.TYPE = 'type'

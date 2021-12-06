@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,6 +64,29 @@ public class AddIngredients extends Activity implements View.OnClickListener {
             String ingredientQuantityString = ingredientQuantity.getText().toString();
             String ingredientTypeString = ingredientType.getText().toString();
 
+            //SOURCES: https://www.py4u.net/discuss/609560
+            //https://stackoverflow.com/questions/7620401/how-to-convert-image-file-data-in-a-byte-array-to-a-bitmap
+            //https://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
+
+            //ImageView --> Bitmap --> byte[]
+//            image.buildDrawingCache();
+//            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
+//            Bitmap bitmap = drawable.getBitmap();
+//            byte[] imgByte = bitmap.getNinePatchChunk(); // convert bitmap to byte[]
+
+            //version2 --byte[] is null
+//            image.buildDrawingCache();
+//            Bitmap bmap = image.getDrawingCache();
+//            byte[] imgByte = bmap.getNinePatchChunk();
+
+            //version3 -- byte[] is null
+            image.setDrawingCacheEnabled(true);
+            image.buildDrawingCache();
+            Bitmap bitmap = Bitmap.createBitmap(image.getDrawingCache());
+            byte[] imgByte = bitmap.getNinePatchChunk();
+//            Toast.makeText(this, imgByte.length, Toast.LENGTH_SHORT).show();
+
+
             if (ingredientNameString.isEmpty() || ingredientQuantityString.isEmpty() || ingredientTypeString.isEmpty()) {
                 Toast.makeText(this, "please fill in all fields", Toast.LENGTH_SHORT).show();
             } else {
@@ -73,7 +97,7 @@ public class AddIngredients extends Activity implements View.OnClickListener {
 
                 if (n == 0) { //if ingredient name doesn't exist in database
 
-                    long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString);
+                    long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString, imgByte);
 
                     if (id < 0) {
                         Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();

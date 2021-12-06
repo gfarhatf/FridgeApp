@@ -1,5 +1,7 @@
 package com.example.fridgeapp;
 
+import android.graphics.Bitmap;
+
 public class Constants {
     public static final String DATABASE_NAME = "fridgedatabase";
 
@@ -8,7 +10,7 @@ public class Constants {
     public static final String USERNAME = "Username";
     public static final String PASSWORD = "Password";
     public static final String EMAIL = "Email";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public static final String INGREDIENT_TABLE_NAME = "INGREDIENT_TABLE";
     public static final String INGREDIENT_UID = "_id";

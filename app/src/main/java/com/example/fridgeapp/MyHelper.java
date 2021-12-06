@@ -15,14 +15,14 @@ import android.widget.Toast;
 
 public class MyHelper extends SQLiteOpenHelper {
     private Context context;
-
-    private static final String CREATE_TABLE =
-            "CREATE TABLE "+
-                    Constants.TABLE_NAME + " (" +
-                    Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    Constants.USERNAME + " TEXT, " +
-                    Constants.PASSWORD + " TEXT, " +
-                    Constants.EMAIL + " TEXT);";
+//
+//    private static final String CREATE_TABLE =
+//            "CREATE TABLE "+
+//                    Constants.TABLE_NAME + " (" +
+//                    Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                    Constants.USERNAME + " TEXT, " +
+//                    Constants.PASSWORD + " TEXT, " +
+//                    Constants.EMAIL + " TEXT);";
 
     private static final String INGREDIENT_TABLE =
             "CREATE TABLE "+
@@ -31,11 +31,11 @@ public class MyHelper extends SQLiteOpenHelper {
                     INGREDIENT_NAME + " TEXT, " +
                     Constants.INGREDIENT_TYPE + " TEXT, " +
                     Constants.INGREDIENT_QUANTITY + " TEXT, " +
-                    Constants.INGREDIENT_IMAGE + " TEXT);";
+                    Constants.INGREDIENT_IMAGE + " BLOB);";
 
 
 
-    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
+//    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
     private static final String DROP_INGREDIENT_TABLE = "DROP TABLE IF EXISTS " + Constants.INGREDIENT_TABLE_NAME;
 
     public MyHelper(Context context){
@@ -46,7 +46,7 @@ public class MyHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL(CREATE_TABLE);
+//            db.execSQL(CREATE_TABLE);
             db.execSQL(INGREDIENT_TABLE);
 
             Toast.makeText(context, "onCreate() called", Toast.LENGTH_LONG).show();
@@ -58,7 +58,7 @@ public class MyHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
-            db.execSQL(DROP_TABLE);
+//            db.execSQL(DROP_TABLE);
             db.execSQL(DROP_INGREDIENT_TABLE);
 
             onCreate(db);
@@ -68,13 +68,14 @@ public class MyHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity) {
+    public boolean updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity, byte[] img) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(Constants.INGREDIENT_NAME, ingredientName);
         contentValues.put(Constants.INGREDIENT_TYPE, ingredientType);
         contentValues.put(Constants.INGREDIENT_QUANTITY, ingredientQuantity);
+        contentValues.put(Constants.INGREDIENT_IMAGE, img);
 
         long updateResults = db.update(Constants.INGREDIENT_TABLE_NAME, contentValues, "_id=?", new String[] {rowId});
 

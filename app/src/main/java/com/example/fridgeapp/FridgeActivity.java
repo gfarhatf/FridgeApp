@@ -67,6 +67,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
             int index2 = cursor.getColumnIndex(Constants.INGREDIENT_TYPE);
             int index3 = cursor.getColumnIndex(Constants.INGREDIENT_QUANTITY);
+            int index4 = cursor.getColumnIndex(Constants.INGREDIENT_IMAGE);
 
             // get user ingredients from database
             cursor.moveToFirst();
@@ -75,7 +76,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
                 String ingredientName = cursor.getString(index1);
                 String ingredientType = cursor.getString(index2);
                 String ingredientQuantity = cursor.getString(index3);
-                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity;
+                byte[] ingredientImage = cursor.getBlob(index4);
+                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity + "," + ingredientImage;
                 myIngredientList.add(s);
                 cursor.moveToNext();
             }

@@ -3,17 +3,21 @@ package com.example.fridgeapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import static com.example.fridgeapp.R.layout.activity_edit_ingredients;
@@ -53,6 +57,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             holder.ingredientNameTextView.setText(splitArr[1]);
             holder.ingredientTypeTextView.setText(splitArr[2]);
             holder.ingredientQuantityTextView.setText("Qty: " + splitArr[3]);
+
+            //convert byte[] from db to bitmap for ImageView
+            byte[] byteImg = splitArr[4].getBytes(StandardCharsets.UTF_8);
+            Bitmap img = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
+            holder.ingredientImage.setImageBitmap(img);
+
             if (splitArr[3].equals("0")) {
                 // if qty is zero, gray out the name and change the color of qty to 0
                 holder.ingredientQuantityTextView.setTextColor(Color.argb(90, 200, 0, 0));
@@ -70,6 +80,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                     i.putExtra("name", String.valueOf(splitArr[1]));
                     i.putExtra("type", String.valueOf(splitArr[2]));
                     i.putExtra("quantity", String.valueOf(splitArr[3]));
+                    i.putExtra("image", String.valueOf(splitArr[4]));
 
                     activity.startActivityForResult(i, 1);
 
@@ -92,6 +103,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 //        public LinearLayout myLayout;
         public CardView myLayout;
         public TextView ingredientNameTextView, ingredientTypeTextView, ingredientQuantityTextView;
+        public ImageView ingredientImage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -102,6 +114,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             ingredientNameTextView = (TextView) itemView.findViewById(R.id.ingredientNameEntry);
             ingredientTypeTextView = (TextView) itemView.findViewById(R.id.ingredientTypeEntry);
             ingredientQuantityTextView = (TextView) itemView.findViewById(R.id.ingredientQuantityEntry);
+            ingredientImage = (ImageView) itemView.findViewById(R.id.ingredientImageEntry);
         }
     }
 }
