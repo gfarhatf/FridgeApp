@@ -42,27 +42,25 @@ import java.util.List;
 
 public class MapActivity extends Activity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener, GoogleMap.OnMyLocationClickListener {
 
+    //SOURCE: examples from lecture and lab (IAT359)
+
     GoogleMap myMap;
     private EditText locationEntry;
     private String locationString;
 
     private FusedLocationProviderClient fusedLocationClient;
 
+    // initial location
     private static final double
             VANCOUVER_LAT = 49.277549,
-            VANCOUVER_LNG = -123.123921,
-
-            SEATTLE_LAT = 47.60621,
-            SEATTLE_LNG = -122.33207,
-
-            CALGARY_LAT = 51.068045,
-            CALGARY_LNG = -114.074182;
+            VANCOUVER_LNG = -123.123921;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+        // get reference to map fragment
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -77,8 +75,10 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
 
         checkLocationPermission();
 
+        // when map first opens up, go to this location
         gotoLocation(VANCOUVER_LAT, VANCOUVER_LNG, 15);
 
+        // set listeners for myMap
         myMap.setMyLocationEnabled(true);
         myMap.setOnMyLocationButtonClickListener(this);
         myMap.setOnMyLocationClickListener(this);
@@ -91,6 +91,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         hideSoftKeyboard(v);
 
         if (v.getId() == R.id.locationButton) {
+            // check that user entered something before clicking search button
             if (locationEntry.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
             } else {
@@ -98,7 +99,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
                 Toast.makeText(this, "Searching for " + locationString, Toast.LENGTH_SHORT).show();
 
                 List<Address> list = null;
-                try {
+                try { //try to find location
                     list = myGeocoder.getFromLocationName(locationString, 5);
                 } catch (IOException e) {
                     Toast.makeText(this, "cannot find locations", Toast.LENGTH_SHORT).show();
@@ -108,16 +109,15 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
                 if (list.size() > 0) {
                     Address add = list.get(0);
                     String locality = add.getLocality();
-                    Toast.makeText(this, "Found " + locality, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Found " + locality, Toast.LENGTH_SHORT).show(); //locality gives the general location (city)
 
                     double lat = add.getLatitude();
                     double lng = add.getLongitude();
-                    gotoLocation(lat, lng, 15);
+                    gotoLocation(lat, lng, 15); // go to newly found location
 
-//                float hue = (float) 2.454;
+                    // add marker at location
                     MarkerOptions options = new MarkerOptions()
                             .title(locality)
-//                        .icon(BitmapDescriptorFactory.defaultMarker(hue))
                             .position(new LatLng(lat, lng));
                     myMap.addMarker(options);
                 }
@@ -146,6 +146,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         myMap.moveCamera(update);
     }
 
+    // if user pressed the location button that is built into the google maps
     public void showCurrentLocation(MenuItem item) {
 
         //auto generated
@@ -195,6 +196,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 1;
 
+    // checks whether location permission is granted and turned on by user
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -232,6 +234,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         }
     }
 
+    // once the request is processed...
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -263,8 +266,7 @@ public class MapActivity extends Activity implements OnMapReadyCallback, GoogleM
         }
     }
 
-    //navigation buttons
-
+//BOTTOM NAV ======================================
     public void goToFridgeActivity (View view) {
         Intent i = new Intent(this, FridgeActivity.class);
         startActivity(i);

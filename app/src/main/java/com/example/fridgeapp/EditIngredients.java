@@ -34,19 +34,20 @@ public class EditIngredients extends Activity implements View.OnClickListener {
     ImageView image;
 
 
+    // initialize fields
     EditText ingredientNameInput, ingredientTypeInput, ingredientQuantityInput;
 
     Button updateBtn;
 
     String nameStr, typeStr, quantityStr, idStr;
 
-    byte[] imgByte;
+    byte[] imgByte; // for storing an image into the db
 
     MyHelper dbHelper;
 
     MyDatabase db;
 
-    byte[] bytes;
+    byte[] bytes; // used for storing image
 
     private static final int MY_CAMERA_REQUEST_CODE = 100;
 
@@ -56,6 +57,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_ingredients);
 
+        // get references to the layout files
         ingredientNameInput = (EditText) findViewById(R.id.ingrNameTextEdit);
         ingredientTypeInput = (EditText) findViewById(R.id.ingrTypeTextEdit);
         ingredientQuantityInput = (EditText) findViewById(R.id.ingrQuantityTextEdit);
@@ -65,19 +67,22 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
         getDataFromInput();
 
+        // set update button to listen to click events
         updateBtn = (Button) findViewById(R.id.updateButton);
         updateBtn.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == updateBtn.getId()) {
+        if (view.getId() == updateBtn.getId()) { //if update button is pressed
             dbHelper = new MyHelper(EditIngredients.this);
 
+            //get data from the textviews that user can change
             nameStr = ingredientNameInput.getText().toString().trim();
             typeStr = ingredientTypeInput.getText().toString().trim();
             quantityStr = ingredientQuantityInput.getText().toString().trim();
 
+            // converting the image from bitmap to byte array (byte[])
             image.setDrawingCacheEnabled(true);
             image.buildDrawingCache();
             Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
@@ -85,7 +90,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
             byte[] imgByte = arrStream.toByteArray();
 
-
+            // update the row
             boolean updateSuccess = dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr, imgByte);
 
             // go back to fridge activity if update successful
@@ -98,7 +103,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             int image = 0;
 
             if(image == 0){
-                if (!checkCameraPermission()){
+                if (!checkCameraPermission()){ // check for camera permission
                     requestCameraPermission();
 
                 }
@@ -122,6 +127,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         ActivityCompat.requestPermissions(EditIngredients.this, new String[] {Manifest.permission.CAMERA}, 100);
     }
 
+    // if delete ingredient button is pressed, remove it from the database
     public void deleteRowListener(View view){
         dbHelper = new MyHelper(EditIngredients.this);
         dbHelper.deleteRow(idStr);
@@ -138,7 +144,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
     private void getDataFromInput () {
         if (getIntent().hasExtra("id") && getIntent().hasExtra("name") && getIntent().hasExtra("type") && getIntent().hasExtra("quantity")){
 
-            //get data from intent
+            //get data from intent from fridge activity based on which ingredient the user pressed to edit
             idStr = getIntent().getStringExtra("id");
             nameStr = getIntent().getStringExtra("name");
             typeStr = getIntent().getStringExtra("type");
@@ -157,18 +163,16 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             ingredientTypeInput.setText(typeStr);
             ingredientQuantityInput.setText(quantityStr);
 
-
-
         } else {
             Toast.makeText(this, "There is no data", Toast.LENGTH_SHORT).show();
         }
     }
 
+    // if user pressed the blue clickable text that reads "change image"
     public void changeImageTextView (View view) {
-//        Toast.makeText(this, "changeImage", Toast.LENGTH_SHORT).show();
-
         //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
         startActivityForResult(
+                //opens the gallery of user's device
                 new Intent(
                         Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI
@@ -184,17 +188,17 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
         if (requestCode == 100){ //camera
             Bitmap captureImg = (Bitmap) data.getExtras().get("data");
-            image.setImageBitmap(captureImg);
+            image.setImageBitmap(captureImg); // load bitmap into ImageView
         }
 
-        //Detects request codes
+        //Detects request codes for if user chose to upload from gallery
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) { //gallery
             Uri selectedImage = data.getData();
             Bitmap imgFromGallery = null;
             try {
                 imgFromGallery = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ByteArrayOutputStream arrStream = new ByteArrayOutputStream();
-                imgFromGallery.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
+                imgFromGallery.compress(Bitmap.CompressFormat.JPEG, 100, arrStream); //compress the img
                 image.setImageBitmap(imgFromGallery);
 
             } catch (FileNotFoundException e) {

@@ -39,7 +39,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-//        Toast.makeText(this, "onCreate-register", Toast.LENGTH_SHORT).show();
 
         usernameEditText = (EditText) findViewById(R.id.editTextUsername);
         passwordEditText = (EditText) findViewById(R.id.editTextPassword);
@@ -102,7 +101,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
 
                 // make all quantities = 0 in database
-//                db.updateAllIngredientsToQtyZero();
                 db.emptyIngredientsTable();
 
                 //go to Fridge Activity
@@ -121,22 +119,4 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             startActivity(intent);
         }
     }
-
-//
-//    public void updateIngredient(View view) {
-//        dbHelper = new MyHelper(RegisterActivity.this);
-//
-//        //update all ingredient qtys to be 0
-//        String emptyFridgeQuery= "UPDATE" + INGREDIENT_TABLE_NAME + " SET " +  INGREDIENT_QUANTITY + " = '0'";
-//        dbHelper.
-//
-//
-//        // get all ingredients
-//        nameStr = ingredientNameInput.getText().toString().trim();
-//        typeStr = ingredientTypeInput.getText().toString().trim();
-//        quantityStr = ingredientQuantityInput.getText().toString().trim();
-//
-//        dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr);
-//    }
-
 }
