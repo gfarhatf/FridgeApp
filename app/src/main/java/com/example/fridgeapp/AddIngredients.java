@@ -181,18 +181,20 @@ public class AddIngredients extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100){
+        if (requestCode == 100){ //camera
             Bitmap captureImg = (Bitmap) data.getExtras().get("data");
             image.setImageBitmap(captureImg);
         }
 
         //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) { //gallery
             Uri selectedImage = data.getData();
-            Bitmap bitmap = null;
+            Bitmap imgFromGallery = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                image.setImageBitmap(bitmap);
+                imgFromGallery = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ByteArrayOutputStream arrStream = new ByteArrayOutputStream();
+                imgFromGallery.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
+                image.setImageBitmap(imgFromGallery);
 
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block
