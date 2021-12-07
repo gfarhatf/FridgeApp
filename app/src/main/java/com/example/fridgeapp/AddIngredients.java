@@ -90,7 +90,7 @@ public class AddIngredients extends Activity implements View.OnClickListener {
     // source: https://stackoverflow.com/questions/38552144/how-get-permission-for-camera-in-android-specifically-marshmallow
     private boolean checkCameraPermission() {
         boolean result_Camera;
-        result_Camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        result_Camera = ContextCompat.checkSelfPermission(AddIngredients.this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
         return result_Camera;
     }
 

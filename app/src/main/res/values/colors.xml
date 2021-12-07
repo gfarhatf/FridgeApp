@@ -14,6 +14,19 @@
     <color name="blue">#FF0000FF</color>
 
 <!--    app colors here: -->
+    <color name="app_cornFlowerBlue">#ff7b97f9</color>
+    <color name="app_cornFlowerBlue2">#ff62b3f2</color>
+    <color name="app_lightBlue">#ffb6d3e7</color>
+    <color name="app_silver">#ffd3b7b3</color>
+    <color name="app_darkSalmon">#fff39878</color>
+
+    <color name="app_navBarInactive">#ffd3b7b3</color>
+    <color name="app_navBarInactiveText">#ffd3b7b3</color>
+    <color name="app_navBarActive">#ffd3b7b3</color>
+    <color name="app_navBarActiveText">#ffd3b7b3</color>
+    
+    <color name="app_background">#ffd3b7b3</color>
+
 
 <!--    button colors: -->
     <color name="button_color">#FF018786</color>

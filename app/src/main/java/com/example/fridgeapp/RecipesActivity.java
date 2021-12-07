@@ -2,6 +2,7 @@ package com.example.fridgeapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class RecipesActivity extends Activity implements View.OnClickListener{
     WebView myWebView;
@@ -26,6 +29,16 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
         myWebView = (WebView)findViewById(R.id.recipesWebView);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.setWebViewClient(new WebViewClient());
+
+        // find recipes based on users first ingredient
+//        String ingred1 = "chicken";
+//        String ingred2 = "potato";
+//        String includeIngredients = "IngIncl=" + ingred1 + "&IngIncl=" + ingred2;
+
+        //example search url (search recipes): https://www.allrecipes.com/search/results/?search=chicken
+        //example search url (include ingredients): https://www.allrecipes.com/search/results/?IngIncl=chicken&IngIncl=potato
+//        myWebView.loadUrl("https://www.allrecipes.com/search/results/?search=" + searchRecipes);
+//        myWebView.loadUrl("https://www.allrecipes.com/search/results/?" + includeIngredients);
         myWebView.loadUrl("https://www.allrecipes.com/recipes/");
     }
 
@@ -37,6 +50,50 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    public void searchByFridgeIngredientsButton (View view) {
+        // automatically opens allrecipies.com when recipes tab is clicked
+        myWebView = (WebView)findViewById(R.id.recipesWebView);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.setWebViewClient(new WebViewClient());
+
+        // find recipes based on users first ingredient
+        MyDatabase db = new MyDatabase(this);
+        MyHelper helper = new MyHelper(this);
+
+        Cursor cursor = null;
+        cursor = db.getData();
+
+        if (cursor != null) {
+            ArrayList<String> ingredientNames = new ArrayList<>();
+            int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                // add all ingredient names into an arraylist
+                ingredientNames.add(cursor.getString(index1));
+                cursor.moveToNext();
+            }
+
+            //example search url (include ingredients): https://www.allrecipes.com/search/results/?IngIncl=chicken&IngIncl=potato
+            //search by max 2 ingredients (get the first 2 ingredients)
+            // OR search by 1 ingredient if only on
+            // OR toast empty fridge message
+            if (ingredientNames.size() > 1) {
+                String includeIngredients = "IngIncl=" + ingredientNames.get(0) + "&IngIncl=" + ingredientNames.get(1);
+                myWebView.loadUrl("https://www.allrecipes.com/search/results/?" + includeIngredients);
+            } else if (ingredientNames.size() > 0) {
+                String includeIngredients = "IngIncl=" + ingredientNames.get(0);
+                myWebView.loadUrl("https://www.allrecipes.com/search/results/?" + includeIngredients);
+            }  else { //load allrecipes homepage if no ingredients.
+                myWebView.loadUrl("https://www.allrecipes.com/recipes/");
+                Toast.makeText(this, "No ingredients in fridge", Toast.LENGTH_SHORT).show();
+            }
+        } else { //load allrecipes homepage if no ingredients.
+        myWebView.loadUrl("https://www.allrecipes.com/recipes/");
+        Toast.makeText(this, "No ingredients in fridge2", Toast.LENGTH_SHORT).show();
+    }
+
     }
 
     @Override

@@ -214,6 +214,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
 
     }
 
+    //SOURCE: https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range/21049922
     private int getRandomColor () {
         int min = 0;
         int max = 255;

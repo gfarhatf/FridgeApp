@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -30,10 +31,14 @@ import java.util.ArrayList;
 
 import static com.example.fridgeapp.R.layout.activity_edit_ingredients;
 import static com.example.fridgeapp.R.layout.row;
+import static com.example.fridgeapp.RegisterActivity.DEFAULT;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public ArrayList<String> list;
+
+    public static final int TEAL_700 = Color.argb(255, 1, 135, 134 );
+    int textColor = TEAL_700; //ingredient name text color = TEAL_700 until changed by user (with sensor: shaking)
 
     private Context context;
 
@@ -63,7 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
         //check that string was split into 3 or more parts
         if (splitArr.length > 2) {
-            
+
             //display data into separate TextViews
             holder.ingredientNameTextView.setText(splitArr[1]);
             holder.ingredientTypeTextView.setText(splitArr[2]);
@@ -76,8 +81,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             if (cursor != null) {
                 cursor.moveToFirst();
 
+                //move cursor to position of list
+                for (int i = 0; i < position; i++) {
+                    cursor.moveToNext();
+                }
                 // Get imageData in byte[]
-                @SuppressLint("Range") byte[] photo=cursor.getBlob(cursor.getColumnIndex(Constants.INGREDIENT_IMAGE));
+                @SuppressLint("Range") byte[] photo = cursor.getBlob(cursor.getColumnIndex(Constants.INGREDIENT_IMAGE));
 
                 Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
                 holder.ingredientImage.setImageBitmap(bmp);
@@ -85,6 +94,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             }
             cursor.close();
 
+
+            // get saved text color from shared preferences
+            SharedPreferences sharedPrefs = context.getSharedPreferences("MyData", Context.MODE_PRIVATE);
+            String textColor = sharedPrefs.getString("textColor", DEFAULT);
+            if (!textColor.equals(DEFAULT)){
+                holder.ingredientNameTextView.setTextColor(Integer.parseInt(textColor));
+            }
 
             if (splitArr[3].equals("0")) {
                 // if qty is zero, gray out the name and change the color of qty to 0
@@ -109,7 +125,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
                 }
             });
-
         }
     }
 

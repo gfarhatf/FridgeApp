@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class FridgeActivity extends Activity implements AdapterView.OnItemClickListener, View.OnClickListener, SensorEventListener {
 
@@ -41,6 +43,15 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
     Vibrator v;
 
+    SensorManager mySensorManager;
+    //SOURCE: https://stackoverflow.com/questions/5271448/how-to-detect-shake-event-with-android
+    //shake detection variables
+    private static final float SHAKE_THRESHOLD = 2.25f; // m/S**2
+    private static final int MIN_TIME_BETWEEN_SHAKES_MILLISECS = 1000;
+    private long mLastShakeTime;
+    Sensor myShakeSensor;
+
+    public static final int TEAL_700 = Color.argb(255, 1, 135, 134 );
 
 
     @Override
@@ -54,46 +65,12 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         myRecycler = (RecyclerView) findViewById(R.id.recyclerView);
         myRecycler.setLayoutManager(new LinearLayoutManager(this));
 
-        Cursor cursor = null;
-
         //initialize database objects
         ArrayList<String> mArrayList = new ArrayList<String>();
         db = new MyDatabase(this);
         helper = new MyHelper(this);
 
-        //only get the data of ingredients with quantities > 0
-        cursor = db.getData();
-
-        ArrayList<String> myIngredientList = new ArrayList<String>();
-        if (cursor != null) {
-
-            int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
-            int index2 = cursor.getColumnIndex(Constants.INGREDIENT_TYPE);
-            int index3 = cursor.getColumnIndex(Constants.INGREDIENT_QUANTITY);
-            int index4 = cursor.getColumnIndex(Constants.INGREDIENT_IMAGE);
-
-            // get user ingredients from database
-            cursor.moveToFirst();
-            while (!cursor.isAfterLast()) {
-                String ingredientId = cursor.getString(0);
-                String ingredientName = cursor.getString(index1);
-                String ingredientType = cursor.getString(index2);
-                String ingredientQuantity = cursor.getString(index3);
-                byte[] ingredientImage = cursor.getBlob(index4);
-
-                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity + "," + ingredientImage;
-
-                myIngredientList.add(s);
-                cursor.moveToNext();
-            }
-        }
-
-
-        // add temporary values for testing
-//        myIngredientList.add("ingred1");
-
-        myAdapter = new MyAdapter(myIngredientList, this, FridgeActivity.this);
-        myRecycler.setAdapter(myAdapter);
+        displayIngredients(); //private method that gets data from the db and displays it in recycler view
 
         //display username that is stored in shared preferences
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
@@ -118,6 +95,58 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             }
         }
 
+
+        //get reference to sensor an attach a listener - (acquire sensors late - release early)
+        mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        //get reference to the sensors
+        myShakeSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }
+
+    private void displayIngredients() {
+        Cursor cursor = null;
+        //only get the data of ingredients with quantities > 0
+        cursor = db.getData();
+
+        ArrayList<String> myIngredientList = new ArrayList<String>();
+        if (cursor != null) {
+
+            int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
+            int index2 = cursor.getColumnIndex(Constants.INGREDIENT_TYPE);
+            int index3 = cursor.getColumnIndex(Constants.INGREDIENT_QUANTITY);
+            int index4 = cursor.getColumnIndex(Constants.INGREDIENT_IMAGE);
+
+            // get user ingredients from database
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                String ingredientId = cursor.getString(0);
+                String ingredientName = cursor.getString(index1);
+                String ingredientType = cursor.getString(index2);
+                String ingredientQuantity = cursor.getString(index3);
+                byte[] ingredientImage = cursor.getBlob(index4);
+
+//                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity + "," + ingredientImage;
+                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity;
+
+                myIngredientList.add(s);
+                cursor.moveToNext();
+            }
+        }
+
+        myAdapter = new MyAdapter(myIngredientList, this, FridgeActivity.this);
+        myRecycler.setAdapter(myAdapter);
+    }
+
+    @Override protected void onResume() {
+        super.onResume();
+        //listener for the ambient temperature sensor
+        mySensorManager.registerListener(this, myShakeSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        //unregister listener - release the sensor
+        mySensorManager.unregisterListener(this);
+        super.onPause();
     }
 
     @Override
@@ -164,11 +193,56 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+        int type = sensorEvent.sensor.getType();
 
+        //SOURCE: https://stackoverflow.com/questions/5271448/how-to-detect-shake-event-with-android
+        //detecting vibration
+        if (type == Sensor.TYPE_ACCELEROMETER) {
+            //check that the times inbetween the shake is long enough to count as a new "shake" motion
+            long curTime = System.currentTimeMillis();
+            if ((curTime - mLastShakeTime) > MIN_TIME_BETWEEN_SHAKES_MILLISECS) {
+
+                //get sensor values x,y,z
+                float x = sensorEvent.values[0];
+                float y = sensorEvent.values[1];
+                float z = sensorEvent.values[2];
+
+                double acceleration = Math.sqrt(Math.pow(x, 2) +
+                        Math.pow(y, 2) +
+                        Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
+//                Toast.makeText(this, "Acceleration is " + acceleration + "m/s^2", Toast.LENGTH_SHORT).show();
+
+
+                //shake threshold used to detect whether motion is large enough as a shake
+                if (acceleration > SHAKE_THRESHOLD) {
+                    mLastShakeTime = curTime;
+                    Toast.makeText(this, "Shake Shake", Toast.LENGTH_SHORT).show();
+                    int newColor = getRandomColor();
+                    SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPrefs.edit();
+                    editor.putString("textColor", String.valueOf(newColor));
+                    editor.commit();
+
+                    displayIngredients();
+                }
+            }
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
         //nothing to do here
+    }
+
+    //SOURCE: https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range/21049922
+    private int getRandomColor () {
+        int min = 0;
+        int max = 255;
+        int randomR = new Random().nextInt((max - min) + 1) + min;
+        int randomG = new Random().nextInt((max - min) + 1) + min;
+        int randomB = new Random().nextInt((max - min) + 1) + min;
+        String color = String.valueOf(Color.argb(255, randomR, randomG, randomB));
+        Toast.makeText(this, color, Toast.LENGTH_SHORT).show();
+        return Integer.parseInt(color);
     }
 }

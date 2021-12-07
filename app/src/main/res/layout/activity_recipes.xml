@@ -6,13 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".RecipesActivity">
 
+
     <WebView
         android:id="@+id/recipesWebView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomNav"
+        android:layout_above="@+id/searchByFridgeIngredientsButton"
         android:layout_marginBottom="0dp" />
 
+    <Button
+        android:id="@+id/searchByFridgeIngredientsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/bottomNav"
+        android:background="@color/teal_700"
+        android:textColor="@color/white"
+        android:layout_marginTop="0dp"
+        android:onClick="searchByFridgeIngredientsButton"
+        android:text="Search with ingredients in fridge" />
     <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 
     <LinearLayout
