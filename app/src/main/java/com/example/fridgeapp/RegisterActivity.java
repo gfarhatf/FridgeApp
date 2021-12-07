@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     public MyDatabase db;
     MyHelper dbHelper;
+
+    public static final int TEAL_700 = Color.argb(255, 1, 135, 134 );
 
 
     @Override
@@ -80,6 +83,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                     SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPrefs.edit();
                     editor.putBoolean("rememberMe", true);
+                    editor.putString("textColor", String.valueOf(TEAL_700));
                     editor.commit();
 
                     //go to Fridge Activity
