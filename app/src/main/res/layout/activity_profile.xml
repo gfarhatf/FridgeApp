@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context=".ProfileActivity">
 
 
@@ -15,10 +16,10 @@
         android:text="Profile"
         android:textSize="20dp" />
 
-    <Button
+    <TextView
         android:id="@+id/resetColorButton"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/email"
 
         android:layout_alignParentStart="true"
@@ -27,12 +28,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="375dp"
         android:layout_marginEnd="200dp"
-        android:background="@color/teal_200"
 
         android:onClick="resetColorButton"
         android:text="Reset color changes"
-        android:textColor="@color/white"
-        android:textSize="12dp" />
+        android:textColor="@color/blue"
+        android:textSize="16dp" />
 
 
 <!--    RECORD TEMPERATURE LAYOUT ELEMENTS-->
@@ -186,7 +186,7 @@
         android:layout_marginTop="550dp"
         android:layout_marginEnd="100dp"
 
-        android:background="@color/teal_700"
+        android:background="@color/button_color"
         android:onClick="logoutButton"
         android:text="Logout"
         android:textColor="@color/white" />
@@ -195,10 +195,11 @@
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
+        android:background="@drawable/rounded_corners_button_nav"
         android:orientation="horizontal">
 
         <Button
@@ -206,7 +207,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/gray_30"
+            android:background="@color/app_navBarInactive"
             android:textColor="@android:color/black"
             android:onClick="goToFridgeActivity"
             android:text="Fridge" />
@@ -216,7 +217,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/gray_30"
+            android:background="@color/app_navBarInactive"
             android:textColor="@android:color/black"
             android:onClick="goToRecipesActivity"
             android:text="Recipes" />
@@ -226,7 +227,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@drawable/rounded_corners_button"
             android:onClick="goToProfileActivity"
             android:text="Profile"
             android:textColor="@android:color/black" />
@@ -236,7 +237,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/gray_30"
+            android:background="@color/app_navBarInactive"
             android:textColor="@android:color/black"
             android:onClick="goToMapActivity"
             android:text="Map" />

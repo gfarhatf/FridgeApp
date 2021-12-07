@@ -242,7 +242,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         int randomG = new Random().nextInt((max - min) + 1) + min;
         int randomB = new Random().nextInt((max - min) + 1) + min;
         String color = String.valueOf(Color.argb(255, randomR, randomG, randomB));
-        Toast.makeText(this, color, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, color, Toast.LENGTH_SHORT).show();
         return Integer.parseInt(color);
     }
 }

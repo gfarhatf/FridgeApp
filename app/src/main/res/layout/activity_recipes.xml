@@ -19,20 +19,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottomNav"
-        android:background="@color/teal_700"
-        android:textColor="@color/white"
         android:layout_marginTop="0dp"
+        android:background="@color/button_color"
         android:onClick="searchByFridgeIngredientsButton"
-        android:text="Search with ingredients in fridge" />
+        android:text="Search with ingredients in fridge"
+        android:textColor="@color/white" />
     <!--    BOTTOM NAVIGATION (tested with restraintLayout)-->
 
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
         android:layout_marginBottom="0dp"
+        android:background="@drawable/rounded_corners_button_nav"
         android:orientation="horizontal">
 
         <Button
@@ -40,7 +41,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/gray_30"
+            android:background="@color/app_navBarInactive"
             android:textColor="@android:color/black"
             android:onClick="goToFridgeActivity"
             android:text="Fridge" />
@@ -50,7 +51,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@drawable/rounded_corners_button"
             android:textColor="@android:color/black"
             android:onClick="onClick"
             android:text="Recipes" />
@@ -60,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/gray_30"
+            android:background="@color/button_color"
             android:onClick="goToProfileActivity"
             android:text="Profile"
             android:textColor="@android:color/black" />
@@ -70,7 +71,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="@color/gray_30"
+            android:background="@color/app_navBarInactive"
             android:textColor="@android:color/black"
             android:onClick="goToMapActivity"
             android:text="Map" />

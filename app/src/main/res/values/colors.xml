@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#FF808080</color>
     <color name="gray_30">#1E000000</color>
+    <color name="transparent">#00000000</color>
 
 <!--    links: -->
     <color name="blue">#FF0000FF</color>
@@ -20,15 +21,21 @@
     <color name="app_silver">#ffd3b7b3</color>
     <color name="app_darkSalmon">#fff39878</color>
 
-    <color name="app_navBarInactive">#ffd3b7b3</color>
-    <color name="app_navBarInactiveText">#ffd3b7b3</color>
-    <color name="app_navBarActive">#ffd3b7b3</color>
-    <color name="app_navBarActiveText">#ffd3b7b3</color>
+    <color name="app_slateBlue">#ff483fbe</color>
+    <color name="app_lavendar">#ffe8f0f9</color>
+    <color name="app_deepskyblue">#ff21d1ff</color>
+
+
+    <color name="app_navBarInactive">#ff5450d6</color>
+    <color name="app_navBarActive">#ffe8f0f9</color>
+
+    <color name="app_navBarInactiveText">#ffffffff</color>
+    <color name="app_navBarActiveText">#ff000000</color>
     
-    <color name="app_background">#ffd3b7b3</color>
+    <color name="app_background">#ffe8f0f9</color>
 
 
 <!--    button colors: -->
-    <color name="button_color">#FF018786</color>
+    <color name="button_color">#ff483fbe</color>
 
 </resources>

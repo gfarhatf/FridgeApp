@@ -32,7 +32,7 @@
             android:text="Search"
             android:id="@+id/locationButton"
             android:onClick="geolocate"
-            android:background="@color/teal_700"
+            android:background="@color/button_color"
             android:textColor="@color/white"
             android:nestedScrollingEnabled="false" />
     </LinearLayout>
@@ -54,18 +54,20 @@
 <LinearLayout
 android:id="@+id/bottomNav"
 android:layout_width="match_parent"
-android:layout_height="75dp"
+android:layout_height="65dp"
 android:layout_alignParentBottom="true"
 android:layout_marginTop="0dp"
 android:layout_marginBottom="0dp"
-android:orientation="horizontal">
+    android:background="@drawable/rounded_corners_button_nav"
+
+    android:orientation="horizontal">
 
 <Button
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_weight="1"
-    android:background="@color/gray_30"
+    android:background="@color/app_navBarInactive"
     android:textColor="@android:color/black"
     android:onClick="goToFridgeActivity"
     android:text="Fridge" />
@@ -75,7 +77,7 @@ android:orientation="horizontal">
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_weight="1"
-    android:background="@color/gray_30"
+    android:background="@color/app_navBarInactive"
     android:textColor="@android:color/black"
     android:onClick="goToRecipesActivity"
     android:text="Recipes" />
@@ -85,7 +87,7 @@ android:orientation="horizontal">
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_weight="1"
-    android:background="@color/gray_30"
+    android:background="@color/app_navBarInactive"
     android:onClick="goToProfileActivity"
     android:text="Profile"
     android:textColor="@android:color/black" />
@@ -95,7 +97,7 @@ android:orientation="horizontal">
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:layout_weight="1"
-    android:background="@color/white"
+    android:background="@drawable/rounded_corners_button"
     android:textColor="@android:color/black"
     android:onClick="goToMapActivity"
     android:text="Map" />
