@@ -24,15 +24,9 @@ import java.util.Random;
 public class ProfileActivity extends Activity implements View.OnClickListener, SensorEventListener {
 
     SensorManager mySensorManager;
-//    Sensor myTemperatureSensor;
 
     TextView username, password, email;
     Button logout;
-
-//    float newTemp;
-
-//    TextView previousTemp, currentTemp;
-
 
     //SOURCE: https://stackoverflow.com/questions/5271448/how-to-detect-shake-event-with-android
     //shake detection variables
@@ -41,6 +35,7 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
     private long mLastShakeTime;
     Sensor myShakeSensor;
 
+    //reference to the teal color
     public static final int TEAL_700 = Color.argb(255, 1, 135, 134 );
 
 
@@ -48,10 +43,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-//        Toast.makeText(this, "onCreate-profile", Toast.LENGTH_SHORT).show();
-
-//        previousTemp = (TextView) findViewById(R.id.previousTempVal);
-//        currentTemp = (TextView) findViewById(R.id.currentTempVal);
 
         username = (TextView) findViewById(R.id.username);
         password = (TextView) findViewById(R.id.password);
@@ -62,7 +53,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
         //get reference to sensor an attach a listener - (acquire sensors late - release early)
         mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         //get reference to the sensors
-//        myTemperatureSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
         myShakeSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         //display username, password in *s and email that is stored in shared preferences
@@ -89,10 +79,8 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
     }
 
     @Override protected void onResume() {
-//        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
         super.onResume();
-        //listener for the ambient temperature sensor
-//        mySensorManager.registerListener(this, myTemperatureSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        //listener for the accelerometer sensor
         mySensorManager.registerListener(this, myShakeSensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -106,21 +94,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
     @Override
     public void onClick (View view) {
     }
-
-//    public void recordTemperatureButton (View view) {
-//        //record temperature
-////        Toast.makeText(this, "record temperature", Toast.LENGTH_SHORT).show();
-//        if (myTemperatureSensor == null) {
-//            Toast.makeText(this, "Sensor not available", Toast.LENGTH_SHORT).show();
-//        }
-//        else {
-//            Toast.makeText(this, myTemperatureSensor.getName(), Toast.LENGTH_SHORT).show();
-//            String oldTemp = currentTemp.getText().toString();
-////          String newTemp = "no data";
-//            previousTemp.setText(oldTemp);
-//            currentTemp.setText(Float.toString(newTemp));
-//        }
-//    }
 
     public void resetColorButton (View view) {
         //make colour back to teal_700 (the original color)
@@ -169,11 +142,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         int type = sensorEvent.sensor.getType();
-//        if (type == Sensor.TYPE_AMBIENT_TEMPERATURE) {
-//            float[] temp_val = sensorEvent.values;
-//            newTemp = temp_val[0];
-//            Toast.makeText(this, "Sensor Value = " + temp_val[0], Toast.LENGTH_SHORT).show();
-//        }
 
         //SOURCE: https://stackoverflow.com/questions/5271448/how-to-detect-shake-event-with-android
         //detecting vibration
@@ -190,8 +158,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
                 double acceleration = Math.sqrt(Math.pow(x, 2) +
                         Math.pow(y, 2) +
                         Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
-//                Toast.makeText(this, "Acceleration is " + acceleration + "m/s^2", Toast.LENGTH_SHORT).show();
-
 
                 //shake threshold used to detect whether motion is large enough as a shake
                 if (acceleration > SHAKE_THRESHOLD) {
@@ -211,7 +177,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-
     }
 
     //SOURCE: https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range/21049922
@@ -222,7 +187,6 @@ public class ProfileActivity extends Activity implements View.OnClickListener, S
         int randomG = new Random().nextInt((max - min) + 1) + min;
         int randomB = new Random().nextInt((max - min) + 1) + min;
         String color = String.valueOf(Color.argb(255, randomR, randomG, randomB));
-//        Toast.makeText(this, color, Toast.LENGTH_SHORT).show();
         return Integer.parseInt(color);
     }
 }

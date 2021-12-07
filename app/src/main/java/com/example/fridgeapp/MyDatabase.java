@@ -21,6 +21,7 @@ public class MyDatabase {
         helper = new MyHelper(context);
     }
 
+    //insert data from the login and registration
     public long insertData (String username, String password, String email)
     {
         db = helper.getWritableDatabase();
@@ -33,6 +34,7 @@ public class MyDatabase {
         return id;
     }
 
+    //insert data when adding an ingredient
     public long insertIngredient(String name, String quantity, String type, byte[] image)
     {
         db = helper.getWritableDatabase();
@@ -47,17 +49,19 @@ public class MyDatabase {
         return id;
     }
 
+    //get data from the datbase
     public Cursor getData()
     {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         String[] columns = {Constants.UID, Constants.INGREDIENT_NAME, Constants.INGREDIENT_TYPE, Constants.INGREDIENT_QUANTITY, Constants.INGREDIENT_IMAGE};
-        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null); //show all ingredients
-//        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, Constants.INGREDIENT_QUANTITY + ">?", new String[]{"0"}, null, null, null); //show only ingredients qty > 0
+
+        //show all ingredients
+        Cursor cursor = db.query(Constants.INGREDIENT_TABLE_NAME, columns, null, null, null, null, null);
         return cursor;
     }
 
-
+    //Go through the database and select specific data
     public Cursor getSelectedData(String ingredientName)
     {
         //select ingredients from database that contain the same name
@@ -82,17 +86,9 @@ public class MyDatabase {
         return cursor;
     }
 
-    public void updateAllIngredientsToQtyZero() {
-        String emptyFridgeQuery= "UPDATE " + INGREDIENT_TABLE_NAME + " SET " +  INGREDIENT_QUANTITY + " = '0'";
-        db = helper.getWritableDatabase();
-        db.execSQL(emptyFridgeQuery);
-    }
-
+    //clearing the data from the fridge when a new user is logged into the application
     public void emptyIngredientsTable() {
-        String emptyTableQuery = "DELETE FROM " + INGREDIENT_TABLE_NAME;
         db = helper.getWritableDatabase();
         db.delete(INGREDIENT_TABLE_NAME,null,null);
-//        db.execSQL(emptyTableQuery);
-
     }
 }

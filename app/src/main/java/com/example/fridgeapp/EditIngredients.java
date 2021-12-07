@@ -33,6 +33,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
     public static final int GET_FROM_GALLERY = 3;
     ImageView image;
 
+
     EditText ingredientNameInput, ingredientTypeInput, ingredientQuantityInput;
 
     Button updateBtn;

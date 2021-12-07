@@ -30,6 +30,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     //Buttons
     private Button loginButton;
 
+    //teal color
     public static final int TEAL_700 = Color.argb(255, 1, 135, 134 );
 
 
@@ -37,7 +38,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toast.makeText(this, "onCreate-main", Toast.LENGTH_SHORT).show();
 
         usernameEditText = (EditText) findViewById(R.id.editTextUsername);
         passwordEditText = (EditText) findViewById(R.id.editTextPassword);
@@ -64,7 +64,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             String username = usernameEditText.getText().toString();
             String password = passwordEditText.getText().toString();
 
-            //check input from user (validate username, password)--------------
+            //check input from user (validate username, password)
 
             //check if fields are filled in
             if (username.isEmpty() || password.isEmpty()) {
@@ -90,7 +90,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 } else if (currUsername.equals(username) && currPassword.equals(password)) { // current user in shared preferences matches user input
                     // go to fridge activity
                     // remember login in Shared Preferences
-//                    sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+
                     editor = sharedPrefs.edit();
                     editor.putBoolean("rememberMe", true);
                     editor.commit();
@@ -102,7 +102,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                     Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                 }
             }
-            //--------------------------------------------------------------------
 
 
         }

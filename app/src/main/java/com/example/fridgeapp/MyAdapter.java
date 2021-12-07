@@ -69,7 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
         //check that string was split into 3 or more parts
         if (splitArr.length > 2) {
 
-            //display data into separate TextViews
+            //display data into separate Textviews
             holder.ingredientNameTextView.setText(splitArr[1]);
             holder.ingredientTypeTextView.setText("Type: " + splitArr[2]);
             holder.ingredientQuantityTextView.setText("Qty: " + splitArr[3]);
@@ -85,10 +85,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                 for (int i = 0; i < position; i++) {
                     cursor.moveToNext();
                 }
+
+                //source: https://www.linkedin.com/pulse/android-save-retrieve-image-sqlite-database-homan-huang
                 // Get imageData in byte[]
                 @SuppressLint("Range") byte[] photo = cursor.getBlob(cursor.getColumnIndex(Constants.INGREDIENT_IMAGE));
 
+                //converting the byte array into bitmap
                 Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+
+                //placing the bitmap into the imageview holder in the recycler view
                 holder.ingredientImage.setImageBitmap(bmp);
 
             }
@@ -115,7 +120,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
                     Intent i = new Intent(context, EditIngredients.class);
 
-
+                    //sending the input of the textviews as extra so it appears on the edit ingredients class
                     i.putExtra("id", String.valueOf(splitArr[0]));
                     i.putExtra("name", String.valueOf(splitArr[1]));
                     i.putExtra("type", String.valueOf(splitArr[2]));
@@ -145,6 +150,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
             myLayout = itemView.findViewById(R.id.listLayout);
 
+            //get the ID's from the row.xml file
             myRecycler = (RecyclerView) itemView.findViewById(R.id.recyclerView);
             ingredientNameTextView = (TextView) itemView.findViewById(R.id.ingredientNameEntry);
             ingredientTypeTextView = (TextView) itemView.findViewById(R.id.ingredientTypeEntry);

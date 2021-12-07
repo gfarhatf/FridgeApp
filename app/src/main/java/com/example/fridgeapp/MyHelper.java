@@ -15,15 +15,8 @@ import android.widget.Toast;
 
 public class MyHelper extends SQLiteOpenHelper {
     private Context context;
-//
-//    private static final String CREATE_TABLE =
-//            "CREATE TABLE "+
-//                    Constants.TABLE_NAME + " (" +
-//                    Constants.UID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                    Constants.USERNAME + " TEXT, " +
-//                    Constants.PASSWORD + " TEXT, " +
-//                    Constants.EMAIL + " TEXT);";
 
+    //create the table for the database
     private static final String INGREDIENT_TABLE =
             "CREATE TABLE "+
                     Constants.INGREDIENT_TABLE_NAME + " (" +
@@ -33,9 +26,7 @@ public class MyHelper extends SQLiteOpenHelper {
                     Constants.INGREDIENT_QUANTITY + " TEXT, " +
                     Constants.INGREDIENT_IMAGE + " BLOB);";
 
-
-
-//    private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + Constants.TABLE_NAME;
+    //create the string to drop the database if it already exists
     private static final String DROP_INGREDIENT_TABLE = "DROP TABLE IF EXISTS " + Constants.INGREDIENT_TABLE_NAME;
 
     public MyHelper(Context context){
@@ -46,9 +37,7 @@ public class MyHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-//            db.execSQL(CREATE_TABLE);
             db.execSQL(INGREDIENT_TABLE);
-
             Toast.makeText(context, "onCreate() called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
             Toast.makeText(context, "exception onCreate() db", Toast.LENGTH_LONG).show();
@@ -58,9 +47,7 @@ public class MyHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try {
-//            db.execSQL(DROP_TABLE);
             db.execSQL(DROP_INGREDIENT_TABLE);
-
             onCreate(db);
             Toast.makeText(context, "onUpgrade called", Toast.LENGTH_LONG).show();
         } catch (SQLException e) {
@@ -68,8 +55,13 @@ public class MyHelper extends SQLiteOpenHelper {
         }
     }
 
+    //update the values of the ingredient
     public boolean updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity, byte[] image) {
+
+        // get reference to the SQLite database
         SQLiteDatabase db = this.getWritableDatabase();
+
+        //store values into the database
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(Constants.INGREDIENT_NAME, ingredientName);
@@ -77,6 +69,7 @@ public class MyHelper extends SQLiteOpenHelper {
         contentValues.put(Constants.INGREDIENT_QUANTITY, ingredientQuantity);
         contentValues.put(Constants.INGREDIENT_IMAGE, image);
 
+        //update row
         long updateResults = db.update(Constants.INGREDIENT_TABLE_NAME, contentValues, "_id=?", new String[] {rowId});
 
         if (updateResults == -1){ //if theres no data
@@ -88,8 +81,11 @@ public class MyHelper extends SQLiteOpenHelper {
         }
     }
 
+    //delete the row from the database
     public void deleteRow(String rowId ) {
         SQLiteDatabase db = this.getWritableDatabase();
+
+        //delete row
         long deleteResults = db.delete(Constants.INGREDIENT_TABLE_NAME, "_id=?", new String[] {rowId});
 
         if (deleteResults == -1){ //if theres no data

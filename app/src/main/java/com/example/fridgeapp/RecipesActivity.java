@@ -23,22 +23,12 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipes);
-//        Toast.makeText(this, "onCreate-recipes", Toast.LENGTH_SHORT).show();
 
-        // automatically opens allrecipies.com when recipes tab is clicked
+        // automatically opens allrecipes.com when recipes tab is clicked
         myWebView = (WebView)findViewById(R.id.recipesWebView);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.setWebViewClient(new WebViewClient());
 
-        // find recipes based on users first ingredient
-//        String ingred1 = "chicken";
-//        String ingred2 = "potato";
-//        String includeIngredients = "IngIncl=" + ingred1 + "&IngIncl=" + ingred2;
-
-        //example search url (search recipes): https://www.allrecipes.com/search/results/?search=chicken
-        //example search url (include ingredients): https://www.allrecipes.com/search/results/?IngIncl=chicken&IngIncl=potato
-//        myWebView.loadUrl("https://www.allrecipes.com/search/results/?search=" + searchRecipes);
-//        myWebView.loadUrl("https://www.allrecipes.com/search/results/?" + includeIngredients);
         myWebView.loadUrl("https://www.allrecipes.com/recipes/");
     }
 
@@ -53,7 +43,7 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
     }
 
     public void searchByFridgeIngredientsButton (View view) {
-        // automatically opens allrecipies.com when recipes tab is clicked
+        // automatically opens allrecipes.com when recipes tab is clicked
         myWebView = (WebView)findViewById(R.id.recipesWebView);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.setWebViewClient(new WebViewClient());
@@ -77,8 +67,7 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
 
             //example search url (include ingredients): https://www.allrecipes.com/search/results/?IngIncl=chicken&IngIncl=potato
             //search by max 2 ingredients (get the first 2 ingredients)
-            // OR search by 1 ingredient if only on
-            // OR toast empty fridge message
+            // OR search by 1 or toast an empty fridge message
             if (ingredientNames.size() > 1) {
                 String includeIngredients = "IngIncl=" + ingredientNames.get(0) + "&IngIncl=" + ingredientNames.get(1);
                 myWebView.loadUrl("https://www.allrecipes.com/search/results/?" + includeIngredients);
@@ -100,6 +89,7 @@ public class RecipesActivity extends Activity implements View.OnClickListener{
     public void onClick(View view) {
     }
 
+    //bottom navigation
     public void goToFridgeActivity (View view) {
         Intent i = new Intent(this, FridgeActivity.class);
         startActivity(i);

@@ -5,10 +5,8 @@ import static com.example.fridgeapp.RegisterActivity.DEFAULT;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -17,17 +15,13 @@ import android.hardware.SensorManager;
 import android.os.Vibrator;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -44,6 +38,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     Vibrator v;
 
     SensorManager mySensorManager;
+
     //SOURCE: https://stackoverflow.com/questions/5271448/how-to-detect-shake-event-with-android
     //shake detection variables
     private static final float SHAKE_THRESHOLD = 2.25f; // m/S**2
@@ -51,14 +46,11 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     private long mLastShakeTime;
     Sensor myShakeSensor;
 
-    public static final int TEAL_700 = Color.argb(255, 1, 135, 134 );
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fridge);
-//        Toast.makeText(this, "onCreate-fridge", Toast.LENGTH_SHORT).show();
 
         usernameTextView = (TextView) findViewById(R.id.usernameTextView);
 
@@ -70,7 +62,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         db = new MyDatabase(this);
         helper = new MyHelper(this);
 
-        displayIngredients(); //private method that gets data from the db and displays it in recycler view
+        //private method that gets data from the db and displays it in recycler view
+        displayIngredients();
 
         //display username that is stored in shared preferences
         SharedPreferences sharedPrefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
@@ -82,7 +75,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         // Sensor usage: vibrate for 3s and output a Toast message to the user that
         //  their fridge is empty
         if (myRecycler.getAdapter() .getItemCount()==0) {
-//        Source: https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency
+
+            // Source: https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency
             // Get instance of Vibrator from current Context
             v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -95,15 +89,16 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             }
         }
 
-
-        //get reference to sensor an attach a listener - (acquire sensors late - release early)
+        //get reference to sensor
         mySensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        //get reference to the sensors
+
+        //get reference to the accelerometer sensor
         myShakeSensor = mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     private void displayIngredients() {
         Cursor cursor = null;
+
         //only get the data of ingredients with quantities > 0
         cursor = db.getData();
 
@@ -113,7 +108,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
             int index1 = cursor.getColumnIndex(Constants.INGREDIENT_NAME);
             int index2 = cursor.getColumnIndex(Constants.INGREDIENT_TYPE);
             int index3 = cursor.getColumnIndex(Constants.INGREDIENT_QUANTITY);
-            int index4 = cursor.getColumnIndex(Constants.INGREDIENT_IMAGE);
 
             // get user ingredients from database
             cursor.moveToFirst();
@@ -122,11 +116,11 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
                 String ingredientName = cursor.getString(index1);
                 String ingredientType = cursor.getString(index2);
                 String ingredientQuantity = cursor.getString(index3);
-                byte[] ingredientImage = cursor.getBlob(index4);
 
-//                String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity + "," + ingredientImage;
+                //adding the strings into another string that separates them by a comma
                 String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity;
 
+                //add string 's' into the arraylist of strings
                 myIngredientList.add(s);
                 cursor.moveToNext();
             }
@@ -154,12 +148,13 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1){
 
+            //relaunch the activity
             recreate();
 
         }
     }
 
-    //Bottom nav--------------------
+    //Bottom nav
     public void goToFridgeActivity (View view) {
         Intent i = new Intent(this, FridgeActivity.class);
         startActivity(i);
@@ -188,7 +183,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
     }
 
     @Override
@@ -210,8 +204,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
                 double acceleration = Math.sqrt(Math.pow(x, 2) +
                         Math.pow(y, 2) +
                         Math.pow(z, 2)) - SensorManager.GRAVITY_EARTH;
-//                Toast.makeText(this, "Acceleration is " + acceleration + "m/s^2", Toast.LENGTH_SHORT).show();
-
 
                 //shake threshold used to detect whether motion is large enough as a shake
                 if (acceleration > SHAKE_THRESHOLD) {
@@ -235,6 +227,7 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     }
 
     //SOURCE: https://stackoverflow.com/questions/21049747/how-can-i-generate-a-random-number-in-a-certain-range/21049922
+    //get a random color
     private int getRandomColor () {
         int min = 0;
         int max = 255;
@@ -242,7 +235,6 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
         int randomG = new Random().nextInt((max - min) + 1) + min;
         int randomB = new Random().nextInt((max - min) + 1) + min;
         String color = String.valueOf(Color.argb(255, randomR, randomG, randomB));
-//        Toast.makeText(this, color, Toast.LENGTH_SHORT).show();
         return Integer.parseInt(color);
     }
 }
