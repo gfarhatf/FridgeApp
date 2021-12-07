@@ -1,9 +1,14 @@
 package com.example.fridgeapp;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +19,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -27,14 +35,19 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
     EditText ingredientNameInput, ingredientTypeInput, ingredientQuantityInput;
 
-    Button updateBtn, deleteBtn, getGoBackBtn;
+    Button updateBtn;
 
     String nameStr, typeStr, quantityStr, idStr;
+
     byte[] imgByte;
 
     MyHelper dbHelper;
 
+    MyDatabase db;
+
     byte[] bytes;
+
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
 
 
     @Override
@@ -47,6 +60,7 @@ public class EditIngredients extends Activity implements View.OnClickListener {
         ingredientQuantityInput = (EditText) findViewById(R.id.ingrQuantityTextEdit);
 
         image = (ImageView) findViewById(R.id.imageView);
+        image.setOnClickListener(this);
 
         getDataFromInput();
 
@@ -65,22 +79,46 @@ public class EditIngredients extends Activity implements View.OnClickListener {
 
             image.setDrawingCacheEnabled(true);
             image.buildDrawingCache();
-            Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+            Bitmap bitmap = ((BitmapDrawable) image.getDrawable()).getBitmap();
             ByteArrayOutputStream arrStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
-            bytes = arrStream.toByteArray();
+            byte[] imgByte = arrStream.toByteArray();
 
-//            dbHelper.updateRow(Constants.INGREDIENT_UID, nameStr, typeStr, quantityStr);
-            boolean updateSuccess = dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr, bytes);
+
+            boolean updateSuccess = dbHelper.updateRow(idStr, nameStr, typeStr, quantityStr, imgByte);
 
             // go back to fridge activity if update successful
             if (updateSuccess) {
                 Intent i = new Intent(this, FridgeActivity.class);
                 startActivity(i);
             }
+        } else if (view == image){
+            Log.d("D", "IM HERE: ");
+            int image = 0;
 
+            if(image == 0){
+                if (!checkCameraPermission()){
+                    requestCameraPermission();
+
+                }
+                //open camera
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i, MY_CAMERA_REQUEST_CODE);
+
+            }
         }
+    }
 
+    //camera check and request
+    // source: https://stackoverflow.com/questions/38552144/how-get-permission-for-camera-in-android-specifically-marshmallow
+    private boolean checkCameraPermission() {
+        boolean result_Camera;
+        result_Camera = ContextCompat.checkSelfPermission(EditIngredients.this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        return result_Camera;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(EditIngredients.this, new String[] {Manifest.permission.CAMERA}, 100);
     }
 
     public void deleteRowListener(View view){
@@ -106,15 +144,18 @@ public class EditIngredients extends Activity implements View.OnClickListener {
             quantityStr = getIntent().getStringExtra("quantity");
 
             //ImageView --> Bitmap --> byte[]
+            image.setDrawingCacheEnabled(true);
             image.buildDrawingCache();
-            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
-            Bitmap bitmap = drawable.getBitmap();
-            imgByte = bitmap.getNinePatchChunk(); //convert bitmap to byte[]
+            Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+            ByteArrayOutputStream arrStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
+            bytes = arrStream.toByteArray();
 
             //set intent data
             ingredientNameInput.setText(nameStr);
             ingredientTypeInput.setText(typeStr);
             ingredientQuantityInput.setText(quantityStr);
+
 
 
         } else {
@@ -140,14 +181,20 @@ public class EditIngredients extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 100){ //camera
+            Bitmap captureImg = (Bitmap) data.getExtras().get("data");
+            image.setImageBitmap(captureImg);
+        }
 
         //Detects request codes
-        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) { //gallery
             Uri selectedImage = data.getData();
-            Bitmap bitmap = null;
+            Bitmap imgFromGallery = null;
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                image.setImageBitmap(bitmap);
+                imgFromGallery = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ByteArrayOutputStream arrStream = new ByteArrayOutputStream();
+                imgFromGallery.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
+                image.setImageBitmap(imgFromGallery);
 
             } catch (FileNotFoundException e) {
                 // TODO Auto-generated catch block

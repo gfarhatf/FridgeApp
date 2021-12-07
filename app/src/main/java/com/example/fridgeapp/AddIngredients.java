@@ -81,8 +81,10 @@ public class AddIngredients extends Activity implements View.OnClickListener {
                     //open camera
                     Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(i, MY_CAMERA_REQUEST_CODE);
+
                 }
             }
+
         });
     }
 
