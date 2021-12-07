@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -39,6 +40,8 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
     TextView usernameTextView;
 
     Vibrator v;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +80,9 @@ public class FridgeActivity extends Activity implements AdapterView.OnItemClickL
                 String ingredientType = cursor.getString(index2);
                 String ingredientQuantity = cursor.getString(index3);
                 byte[] ingredientImage = cursor.getBlob(index4);
+
                 String s = ingredientId + "," + ingredientName + "," + ingredientType + "," + ingredientQuantity + "," + ingredientImage;
+
                 myIngredientList.add(s);
                 cursor.moveToNext();
             }

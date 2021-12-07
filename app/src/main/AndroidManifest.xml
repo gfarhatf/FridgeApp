@@ -3,7 +3,7 @@
     package="com.example.fridgeapp">
     <uses-feature android:name="android.hardware.camera"
         android:required="true" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
 
 
     <application
@@ -57,6 +57,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB7ks-tzx7dS_L_57wF8EyJXVojuF9suXU" />
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.VIBRATE"/>
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

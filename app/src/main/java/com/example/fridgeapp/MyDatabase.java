@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.media.Image;
 
 public class MyDatabase {
 
@@ -27,11 +28,12 @@ public class MyDatabase {
         contentValues.put(Constants.USERNAME, username);
         contentValues.put(Constants.PASSWORD, password);
         contentValues.put(Constants.EMAIL, email);
+
         long id = db.insert(Constants.TABLE_NAME, null, contentValues);
         return id;
     }
 
-    public long insertIngredient(String name, String quantity, String type, byte[] img)
+    public long insertIngredient(String name, String quantity, String type, byte[] image)
     {
         db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -39,7 +41,7 @@ public class MyDatabase {
         contentValues.put(Constants.INGREDIENT_NAME, name);
         contentValues.put(Constants.INGREDIENT_TYPE, type);
         contentValues.put(Constants.INGREDIENT_QUANTITY, quantity);
-        contentValues.put(Constants.INGREDIENT_IMAGE, img);
+        contentValues.put(Constants.INGREDIENT_IMAGE, image);
 
         long id = db.insert(Constants.INGREDIENT_TABLE_NAME, null, contentValues);
         return id;

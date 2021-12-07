@@ -2,10 +2,16 @@ package com.example.fridgeapp;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
@@ -18,14 +24,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class AddIngredients extends Activity implements View.OnClickListener {
+
     //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
     //for uploading image
     public static final int GET_FROM_GALLERY = 3;
     ImageView image;
+
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+
 
     //Text views
     private EditText ingredientName, ingredientType, ingredientQuantity;
@@ -39,7 +54,6 @@ public class AddIngredients extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredients);
-//        Toast.makeText(this, "onCreate-add", Toast.LENGTH_SHORT).show();
 
         ingredientName = (EditText) findViewById(R.id.ingrNameText);
         ingredientQuantity = (EditText) findViewById(R.id.ingrQuantityText);
@@ -53,6 +67,48 @@ public class AddIngredients extends Activity implements View.OnClickListener {
 
         db = new MyDatabase(this);
 
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int image = 0;
+
+                if(image == 0){
+                    if (!checkCameraPermission()){
+                        requestCameraPermission();
+
+                    }
+                    //open camera
+                    Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(i, MY_CAMERA_REQUEST_CODE);
+                }
+            }
+        });
+    }
+
+    //camera check and request
+    // source: https://stackoverflow.com/questions/38552144/how-get-permission-for-camera-in-android-specifically-marshmallow
+    private boolean checkCameraPermission() {
+        boolean result_Camera;
+        result_Camera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        return result_Camera;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(AddIngredients.this, new String[] {Manifest.permission.CAMERA}, 100);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -68,23 +124,14 @@ public class AddIngredients extends Activity implements View.OnClickListener {
             //https://stackoverflow.com/questions/7620401/how-to-convert-image-file-data-in-a-byte-array-to-a-bitmap
             //https://stackoverflow.com/questions/11790104/how-to-storebitmap-image-and-retrieve-image-from-sqlite-database-in-android
 
-            //ImageView --> Bitmap --> byte[]
-//            image.buildDrawingCache();
-//            BitmapDrawable drawable = (BitmapDrawable) image.getDrawable();
-//            Bitmap bitmap = drawable.getBitmap();
-//            byte[] imgByte = bitmap.getNinePatchChunk(); // convert bitmap to byte[]
-
-            //version2 --byte[] is null
-//            image.buildDrawingCache();
-//            Bitmap bmap = image.getDrawingCache();
-//            byte[] imgByte = bmap.getNinePatchChunk();
-
-            //version3 -- byte[] is null
+            //convert bitmap to byte array
             image.setDrawingCacheEnabled(true);
             image.buildDrawingCache();
-            Bitmap bitmap = Bitmap.createBitmap(image.getDrawingCache());
-            byte[] imgByte = bitmap.getNinePatchChunk();
-//            Toast.makeText(this, imgByte.length, Toast.LENGTH_SHORT).show();
+            Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
+            ByteArrayOutputStream arrStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, arrStream);
+
+            byte[] bytes = arrStream.toByteArray();
 
 
             if (ingredientNameString.isEmpty() || ingredientQuantityString.isEmpty() || ingredientTypeString.isEmpty()) {
@@ -97,7 +144,8 @@ public class AddIngredients extends Activity implements View.OnClickListener {
 
                 if (n == 0) { //if ingredient name doesn't exist in database
 
-                    long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString, imgByte);
+                    //adding ingredient to the database
+                    long id = db.insertIngredient(ingredientNameString, ingredientQuantityString, ingredientTypeString, bytes);
 
                     if (id < 0) {
                         Toast.makeText(this, "fail", Toast.LENGTH_SHORT).show();
@@ -110,21 +158,13 @@ public class AddIngredients extends Activity implements View.OnClickListener {
 
                 } else {
                     //check if ingredient is qty = 0 (update if so, otherwise it ALREADY EXISTS)
-//                Cursor name = db.getHiddenData(ingredientNameString);
-//                int n = name.getCount(); //how many rows were returned in the result
-//                if ()
                     Toast.makeText(this, "ALREADY EXISTS", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
-    private void deleteRow (View view){
-
-    }
-
     public void uploadImageTextView (View view) {
-//        Toast.makeText(this, "uploadImage", Toast.LENGTH_SHORT).show();
 
         //SOURCE: https://stackoverflow.com/questions/9107900/how-to-upload-image-from-gallery-in-android
         startActivityForResult(
@@ -141,6 +181,10 @@ public class AddIngredients extends Activity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 100){
+            Bitmap captureImg = (Bitmap) data.getExtras().get("data");
+            image.setImageBitmap(captureImg);
+        }
 
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {

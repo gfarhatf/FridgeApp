@@ -1,11 +1,18 @@
 package com.example.fridgeapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ImageFormat;
+import android.graphics.Rect;
+import android.graphics.YuvImage;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +24,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -25,17 +33,19 @@ import static com.example.fridgeapp.R.layout.row;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
-    public ArrayList<String> list, ingredientId;
-
+    public ArrayList<String> list;
 
     private Context context;
 
     Activity activity;
 
+    MyDatabase db;
+
     public MyAdapter(ArrayList<String> list, Context context, Activity activity) {
         this.list = list;
         this.context = context;
         this.activity = activity;
+
     }
 
     @Override
@@ -48,6 +58,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(MyAdapter.MyViewHolder holder, int position) {
         String res = list.get(position);
+
         String splitArr[] = res.split(","); //split string along commas
 
         //check that string was split into 3 or more parts
@@ -58,10 +69,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             holder.ingredientTypeTextView.setText(splitArr[2]);
             holder.ingredientQuantityTextView.setText("Qty: " + splitArr[3]);
 
-            //convert byte[] from db to bitmap for ImageView
-            byte[] byteImg = splitArr[4].getBytes(StandardCharsets.UTF_8);
-            Bitmap img = BitmapFactory.decodeByteArray(byteImg, 0, byteImg.length);
-            holder.ingredientImage.setImageBitmap(img);
+            db = new MyDatabase(context);
+            Cursor cursor = db.getData();
+
+            // Read data
+            if (cursor != null) {
+                cursor.moveToFirst();
+
+                // Get imageData in byte[]
+                @SuppressLint("Range") byte[] photo=cursor.getBlob(cursor.getColumnIndex(Constants.INGREDIENT_IMAGE));
+
+                Bitmap bmp = BitmapFactory.decodeByteArray(photo, 0, photo.length);
+                holder.ingredientImage.setImageBitmap(bmp);
+
+            }
+            cursor.close();
+
 
             if (splitArr[3].equals("0")) {
                 // if qty is zero, gray out the name and change the color of qty to 0
@@ -73,6 +96,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
                 @Override
                 public void onClick(View view) {
+
                     Intent i = new Intent(context, EditIngredients.class);
 
 
@@ -80,14 +104,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
                     i.putExtra("name", String.valueOf(splitArr[1]));
                     i.putExtra("type", String.valueOf(splitArr[2]));
                     i.putExtra("quantity", String.valueOf(splitArr[3]));
-                    i.putExtra("image", String.valueOf(splitArr[4]));
 
                     activity.startActivityForResult(i, 1);
 
-
                 }
             });
-          //  holder.ingredientQuantityTextView.setText("Qty: " + splitArr[2]);
 
         }
     }
@@ -100,7 +121,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         public RecyclerView myRecycler;
-//        public LinearLayout myLayout;
         public CardView myLayout;
         public TextView ingredientNameTextView, ingredientTypeTextView, ingredientQuantityTextView;
         public ImageView ingredientImage;

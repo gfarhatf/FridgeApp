@@ -68,14 +68,14 @@ public class MyHelper extends SQLiteOpenHelper {
         }
     }
 
-    public boolean updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity, byte[] img) {
+    public boolean updateRow(String rowId, String ingredientName, String ingredientType, String ingredientQuantity, byte[] image) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(Constants.INGREDIENT_NAME, ingredientName);
         contentValues.put(Constants.INGREDIENT_TYPE, ingredientType);
         contentValues.put(Constants.INGREDIENT_QUANTITY, ingredientQuantity);
-        contentValues.put(Constants.INGREDIENT_IMAGE, img);
+        contentValues.put(Constants.INGREDIENT_IMAGE, image);
 
         long updateResults = db.update(Constants.INGREDIENT_TABLE_NAME, contentValues, "_id=?", new String[] {rowId});
 
